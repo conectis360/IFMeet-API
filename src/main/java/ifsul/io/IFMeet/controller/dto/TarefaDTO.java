@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 public class TarefaDTO {
 
-    private Long id;
+    private Long codigoTarefa;
 
     private Trabalho trabalho;
 

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -25,15 +26,17 @@ public class AtaServiceImpl implements AtaService {
     @Autowired
     Messages messages;
 
-    public Ata findById() {
-        return null;
+    @Override
+    public Optional<Ata> findById(Long id) {
+        return ataRepository.findById(id);
     }
 
     public List<Ata> findAll() {
-        return null;
+        return ataRepository.findAll();
     }
 
     public void save(Ata ata) {
+        ataRepository.save(ata);
     }
 
 }

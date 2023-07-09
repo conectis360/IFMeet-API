@@ -2,10 +2,12 @@ package ifsul.io.IFMeet.controller;
 
 import ifsul.io.IFMeet.controller.dto.ConviteDTO;
 import ifsul.io.IFMeet.controller.dto.RegistrarUsuarioDTO;
+import ifsul.io.IFMeet.controller.dto.UsuarioDTO;
 import ifsul.io.IFMeet.domain.Convite;
 import ifsul.io.IFMeet.domain.Usuario;
 import ifsul.io.IFMeet.mapper.ConviteMapper;
 import ifsul.io.IFMeet.mapper.RegistrarUsuarioMapper;
+import ifsul.io.IFMeet.mapper.UsuarioMapper;
 import ifsul.io.IFMeet.repository.UsuarioRepository;
 import ifsul.io.IFMeet.security.SecurityUtils;
 import ifsul.io.IFMeet.service.ConviteService;
@@ -22,6 +24,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -34,6 +38,8 @@ public class RegistrarController {
 
     @Autowired
     RegistrarUsuarioMapper registrarUsuarioMapper;
+    @Autowired
+    UsuarioMapper usuarioMapper;
     @Autowired
     ConviteMapper conviteMapper;
     @Autowired

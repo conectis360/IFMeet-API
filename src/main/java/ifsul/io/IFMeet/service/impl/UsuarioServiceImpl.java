@@ -2,9 +2,11 @@ package ifsul.io.IFMeet.service.impl;
 
 import ifsul.io.IFMeet.Config.Role;
 import ifsul.io.IFMeet.components.Messages;
+import ifsul.io.IFMeet.domain.Roles;
 import ifsul.io.IFMeet.domain.TipoUsuario;
 import ifsul.io.IFMeet.domain.Usuario;
 import ifsul.io.IFMeet.exception.exceptions.BusinessException;
+import ifsul.io.IFMeet.repository.RoleRepository;
 import ifsul.io.IFMeet.repository.TipoUsuarioRepository;
 import ifsul.io.IFMeet.repository.UsuarioRepository;
 import ifsul.io.IFMeet.service.UsuarioService;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -26,6 +29,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     PasswordEncoder encoder;
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
 
     @Autowired
     TipoUsuarioRepository tipoUsuarioRepository;
@@ -42,6 +48,14 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new BusinessException(messages.get("usuario.email-ja-cadastrado"));
         }
+    }
+
+    @Override
+    public List<Roles> retornarAlunos() {
+        log.debug("into retornarAlunos method");
+        List<Roles> listaDeUsuario = roleRepository.findByRoleId(2L);
+
+        return listaDeUsuario;
     }
 
     public void registrarOrientador(Usuario usuario) {
@@ -67,7 +81,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         user.setTipoUsuario(this.devolvePermissoesOrientando());
         usuarioRepository.save(user);
     }
-    private Set<TipoUsuario> devolvePermissoesOrientando(){
+
+    private Set<TipoUsuario> devolvePermissoesOrientando() {
         log.debug("into devolvePermissoes method");
         Set<TipoUsuario> roles = new HashSet<>();
 

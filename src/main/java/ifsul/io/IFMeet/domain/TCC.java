@@ -22,7 +22,7 @@ public class TCC {
 
     @Column(name = "versao")
     private String versao;
-    //arduino?
+
     @Column(name = "comentario")
     private String comentario;
 }

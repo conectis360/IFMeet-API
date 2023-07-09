@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -25,8 +26,8 @@ public class StatusServiceImpl implements StatusService {
     @Autowired
     Messages messages;
 
-    public Status findById(Long codigoStatus) {
-        return null;
+    public Optional<Status> findById(Long codigoStatus) {
+        return statusRepository.findById(codigoStatus);
     }
 
     public List<Status> findAll() {

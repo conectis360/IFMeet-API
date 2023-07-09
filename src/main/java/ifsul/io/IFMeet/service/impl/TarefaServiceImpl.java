@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -22,8 +23,8 @@ public class TarefaServiceImpl implements TarefaService {
     @Autowired
     Messages messages;
 
-    public Tarefa findById() {
-        return null;
+    public Optional<Tarefa> findById(Long id) {
+        return tarefaRepository.findById(id);
     }
 
     public List<Tarefa> findAll() {

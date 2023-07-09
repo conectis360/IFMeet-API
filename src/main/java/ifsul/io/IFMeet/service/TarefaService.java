@@ -4,10 +4,11 @@ import ifsul.io.IFMeet.domain.Curso;
 import ifsul.io.IFMeet.domain.Tarefa;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TarefaService {
 
-    public Tarefa findById();
+    Optional<Tarefa> findById(Long id);
 
     public List<Tarefa> findAll();
 

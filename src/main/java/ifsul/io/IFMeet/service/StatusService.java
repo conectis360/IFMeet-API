@@ -4,10 +4,11 @@ import ifsul.io.IFMeet.domain.Curso;
 import ifsul.io.IFMeet.domain.Status;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StatusService {
 
-    public Status findById(Long codigoStatus);
+    Optional<Status> findById(Long codigoStatus);
 
     public List<Status> findAll();
 

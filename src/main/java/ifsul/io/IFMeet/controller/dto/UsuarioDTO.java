@@ -13,6 +13,6 @@ import java.util.Set;
 @Getter
 @Setter
 public class UsuarioDTO {
-    private Long id;
+    private Long codigoUsuario;
     private String nome;
 }

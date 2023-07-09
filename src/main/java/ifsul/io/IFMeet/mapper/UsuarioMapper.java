@@ -12,10 +12,11 @@ public interface UsuarioMapper extends BeanMapper<Usuario, UsuarioDTO>{
 
     @Override
     @InheritInverseConfiguration
+    @Mapping(source = "codigoUsuario", target = "id")
     Usuario toEntity(UsuarioDTO usuarioDTO);
 
     @Override
-    @Mapping(source = "id", target = "id")
+    @Mapping(source = "id", target = "codigoUsuario")
     UsuarioDTO toDto(Usuario usuario);
 
 }

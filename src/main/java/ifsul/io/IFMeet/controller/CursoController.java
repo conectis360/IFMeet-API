@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/v1/curso")
+@CrossOrigin(origins = "http://localhost:8081")
 public class CursoController {
 
     @Autowired
@@ -34,7 +36,7 @@ public class CursoController {
     CursoService cursoService;
 
     @ApiOperation(value = "Busca todos os cursos", notes = "Retorna todos os cursos cadastrados no banco")
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/findAll", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<CursoDTO>> findAll() {
         log.debug("entrou findAll");
         List<CursoDTO> listaCursoDTO = new ArrayList<>();
@@ -47,10 +49,20 @@ public class CursoController {
         return ResponseEntity.ok(listaCursoDTO);
     }
 
-    @ApiOperation(value = "", notes = "")
+    @ApiOperation(value = "Retornar Curso por ID", notes = "Cadastra um novo curso")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
+    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<CursoDTO> findById(@PathVariable("id") Long id) {
+        log.debug("entrou registrarOrientador");
+        Curso curso = cursoService.findById(id);
+        CursoDTO cursoDTO = cursoMapper.toDto(curso);
+        return ResponseEntity.ok(cursoDTO);
+    }
+
+    @ApiOperation(value = "Cadastrar Curso", notes = "Cadastra um novo curso")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
     @PostMapping(value = "/cadastrarCurso", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Void> registrarOrientador(@RequestBody CursoDTO cursoDTO) {
+    public ResponseEntity<Void> registrarCurso(@RequestBody CursoDTO cursoDTO) {
         log.debug("entrou registrarOrientador");
         Curso curso = cursoMapper.toEntity(cursoDTO);
         cursoService.save(curso);

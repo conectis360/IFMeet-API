@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -23,8 +24,8 @@ public class ReuniaoServiceImpl implements ReuniaoService {
     @Autowired
     Messages messages;
 
-    public Reuniao findById() {
-        return null;
+    public Optional<Reuniao> findById(Long id) {
+        return reuniaoRepository.findById(id);
     }
 
     public List<Reuniao> findAll() {

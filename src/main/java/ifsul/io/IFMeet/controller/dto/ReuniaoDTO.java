@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 public class ReuniaoDTO {
 
-    private Long id;
+    private Long codigoReuniao;
 
     private Trabalho trabalho;
 

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -25,8 +26,8 @@ public class DocumentacaoServiceImpl implements DocumentacaoService {
     @Autowired
     Messages messages;
 
-    public Documentacao findById() {
-        return null;
+    public Optional<Documentacao> findById(Long id) {
+        return documentacaoRepository.findById(id);
     }
 
     public List<Documentacao> findAll() {

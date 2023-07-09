@@ -4,12 +4,13 @@ import ifsul.io.IFMeet.domain.Curso;
 import ifsul.io.IFMeet.domain.Reuniao;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReuniaoService {
 
-    public Reuniao findById();
+    Optional<Reuniao> findById(Long id);
 
-    public List<Reuniao> findAll();
+    List<Reuniao> findAll();
 
-    public void save(Reuniao reuniao);
+    void save(Reuniao reuniao);
 }

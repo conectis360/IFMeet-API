@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class AtaDTO {
 
-    private Long id;
+    private Long codigoAta;
 
     private Reuniao reuniao;
 

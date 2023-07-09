@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 public class StatusDTO {
 
-    private Long id;
+    private Long codigoStatus;
     private String status;
 }

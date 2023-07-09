@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class DocumentacaoDTO {
 
-    private Long id;
+    private Long codigoDocumentacao;
 
     private Reuniao reuniao;
     private Trabalho trabalho;
