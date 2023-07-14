@@ -12,7 +12,6 @@ public interface UsuarioMapper extends BeanMapper<Usuario, UsuarioDTO>{
 
     @Override
     @InheritInverseConfiguration
-    @Mapping(source = "codigoUsuario", target = "id")
     Usuario toEntity(UsuarioDTO usuarioDTO);
 
     @Override

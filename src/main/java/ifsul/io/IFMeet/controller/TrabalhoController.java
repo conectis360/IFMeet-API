@@ -54,7 +54,7 @@ public class TrabalhoController {
     }
 
     @ApiOperation(value = "Cadastra um novo trabalho no banco", notes = "Cadastra um novo trabalho no banco de dados")
-    @PreAuthorize("hasRole('ROLE_ORIENTADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR')")
     @PostMapping(value = "/cadastrarTrabalho", produces = {MediaType.APPLICATION_JSON_VALUE})
     public void cadastrarTrabalho(@RequestBody TrabalhoDTO trabalhoDTO) {
         log.debug("into cadastrarTrabalho method");

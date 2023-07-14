@@ -42,4 +42,16 @@ public class UsuarioController {
         }
         return ResponseEntity.ok(usuariosDTO);
     }
+    @ApiOperation(value = "Retorna Orientadores", notes = "Retorna lista de Orientadores")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/findAllOrientadores", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<UsuarioDTO>> retornarOrientadores() {
+        log.debug("entrou retornarOrientadores");
+        List<Roles> usuarios = usuarioService.retornarOrientadores();
+        List<UsuarioDTO> usuariosDTO = new ArrayList<>();
+        for (Roles role : usuarios) {
+            usuariosDTO.add(usuarioMapper.toDto(role.getUsuario()));
+        }
+        return ResponseEntity.ok(usuariosDTO);
+    }
 }

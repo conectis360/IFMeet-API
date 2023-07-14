@@ -1,5 +1,6 @@
 package ifsul.io.IFMeet.service.impl;
 
+import ifsul.io.IFMeet.Config.Constants;
 import ifsul.io.IFMeet.Config.Role;
 import ifsul.io.IFMeet.components.Messages;
 import ifsul.io.IFMeet.domain.Roles;
@@ -53,8 +54,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<Roles> retornarAlunos() {
         log.debug("into retornarAlunos method");
-        List<Roles> listaDeUsuario = roleRepository.findByRoleId(2L);
-
+        List<Roles> listaDeUsuario = roleRepository.findByRoleId(Constants.CODIGO_ALUNO);
+        return listaDeUsuario;
+    }
+    @Override
+    public List<Roles> retornarOrientadores() {
+        log.debug("into retornarOrientadores method");
+        List<Roles> listaDeUsuario = roleRepository.findByRoleId(Constants.CODIGO_ORIENTADOR);
         return listaDeUsuario;
     }
 

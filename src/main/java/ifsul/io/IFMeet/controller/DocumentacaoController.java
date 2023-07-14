@@ -31,7 +31,7 @@ public class DocumentacaoController {
     @Autowired
     DocumentacaoService documentacaoService;
 
-    @ApiOperation(value = "Busca todas as reuniões", notes = "Retorna todas as reuniões cadastradas no banco")
+    @ApiOperation(value = "Busca todas as documentações", notes = "Retorna todas as documentações cadastradas no banco")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<DocumentacaoDTO>> findAll() {
         log.debug("entrou findAll");
@@ -45,18 +45,18 @@ public class DocumentacaoController {
         return ResponseEntity.ok(listaDocumentacaoDTO);
     }
 
-    @ApiOperation(value = "Retornar Curso por ID", notes = "Cadastra um novo curso")
+    @ApiOperation(value = "Retornar documentação por ID", notes = "Retorna uma documentação pelo id")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<DocumentacaoDTO> findById(@PathVariable("id") Long id) {
-        log.debug("entrou registrarOrientador");
+        log.debug("entrou findById");
         Optional<Documentacao> documentacaoOptional = documentacaoService.findById(id);
         Documentacao documentacao = documentacaoOptional.orElse(null);
         DocumentacaoDTO documentacaoDTO = documentacaoMapper.toDto(documentacao);
         return ResponseEntity.ok(documentacaoDTO);
     }
 
-    @ApiOperation(value = "Cadastrar Tarefa", notes = "Cadastra uma nova Tarefa")
+    @ApiOperation(value = "Registrar Documentação", notes = "Registra uma nova documentação")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
     @PostMapping(value = "/cadastrarDocumentacao", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> registrarDocumentacao(@RequestBody DocumentacaoDTO documentacaoDTO) {

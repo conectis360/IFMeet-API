@@ -11,4 +11,5 @@ public interface UsuarioService {
     void registrarOrientador(Usuario usuario);
     void registrarAdmin(Usuario usuario);
     List<Roles> retornarAlunos();
+    List<Roles> retornarOrientadores();
 }

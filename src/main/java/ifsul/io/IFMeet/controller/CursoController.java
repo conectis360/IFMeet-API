@@ -53,7 +53,7 @@ public class CursoController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CursoDTO> findById(@PathVariable("id") Long id) {
-        log.debug("entrou registrarOrientador");
+        log.debug("entrou findById");
         Curso curso = cursoService.findById(id);
         CursoDTO cursoDTO = cursoMapper.toDto(curso);
         return ResponseEntity.ok(cursoDTO);
@@ -63,7 +63,7 @@ public class CursoController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
     @PostMapping(value = "/cadastrarCurso", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> registrarCurso(@RequestBody CursoDTO cursoDTO) {
-        log.debug("entrou registrarOrientador");
+        log.debug("entrou cadastrarCurso");
         Curso curso = cursoMapper.toEntity(cursoDTO);
         cursoService.save(curso);
         return ResponseEntity.ok().build();

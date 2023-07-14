@@ -49,7 +49,7 @@ public class TarefaController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<TarefaDTO> findById(@PathVariable("id") Long id) {
-        log.debug("entrou registrarOrientador");
+        log.debug("entrou findById");
         Optional<Tarefa> statusOptional = tarefaService.findById(id);
         Tarefa tarefa = statusOptional.orElse(null);
         TarefaDTO tarefaDTO = tarefaMapper.toDto(tarefa);
@@ -60,7 +60,7 @@ public class TarefaController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
     @PostMapping(value = "/cadastrarTarefa", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> registrarTarefa(@RequestBody TarefaDTO tarefaDTO) {
-        log.debug("entrou registrarCurso");
+        log.debug("entrou cadastrarTarefa");
         Tarefa tarefa = tarefaMapper.toEntity(tarefaDTO);
         tarefaService.save(tarefa);
         return ResponseEntity.ok().build();

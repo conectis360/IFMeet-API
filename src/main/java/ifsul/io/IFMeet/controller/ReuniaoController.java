@@ -49,7 +49,7 @@ public class ReuniaoController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ReuniaoDTO> findById(@PathVariable("id") Long id) {
-        log.debug("entrou registrarOrientador");
+        log.debug("entrou findById");
         Optional<Reuniao> reuniaoOptional = reuniaoService.findById(id);
         Reuniao reuniao = reuniaoOptional.orElse(null);
         ReuniaoDTO reuniaoDTO = reuniaoMapper.toDto(reuniao);
@@ -60,7 +60,7 @@ public class ReuniaoController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
     @PostMapping(value = "/cadastrarCurso", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> registrarCurso(@RequestBody ReuniaoDTO reuniaoDTO) {
-        log.debug("entrou registrarOrientador");
+        log.debug("entrou registrarCurso");
         Reuniao reuniao = reuniaoMapper.toEntity(reuniaoDTO);
         reuniaoService.save(reuniao);
         return ResponseEntity.ok().build();

@@ -26,7 +26,7 @@ public class Trabalho {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "professor_id")
-    private Usuario professor;
+    private Usuario orientador;
 
     @Column(name = "dataInicio")
     private LocalDateTime dataInicio;

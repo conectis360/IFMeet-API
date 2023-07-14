@@ -13,7 +13,7 @@ public class TrabalhoDTO {
 
     private UsuarioDTO aluno;
 
-    private UsuarioDTO professor;
+    private UsuarioDTO orientador;
 
     private LocalDateTime dataInicio;
 

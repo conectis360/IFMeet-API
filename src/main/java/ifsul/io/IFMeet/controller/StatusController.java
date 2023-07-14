@@ -50,7 +50,7 @@ public class StatusController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<StatusDTO> findById(@PathVariable("id") Long id) {
-        log.debug("entrou registrarOrientador");
+        log.debug("entrou findById");
         Optional<Status> statusOptional = statusService.findById(id);
         Status status = statusOptional.orElse(null);
         StatusDTO statusDTO = statusMapper.toDto(status);
@@ -61,7 +61,7 @@ public class StatusController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
     @PostMapping(value = "/cadastrarStatus", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> registrarStatus(@RequestBody StatusDTO statusDTO) {
-        log.debug("entrou registrarCurso");
+        log.debug("entrou registrarStatus");
         Status status = statusMapper.toEntity(statusDTO);
         statusService.save(status);
         return ResponseEntity.ok().build();

@@ -52,7 +52,7 @@ public class RegistrarController {
     @ApiOperation(value = "Registra Orientandos", notes = "Faz cadastro de novos Orientandos")
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> registrarOrientando(@RequestBody RegistrarUsuarioDTO usuarioDTO) {
-        log.debug("entrou registrarUsuario");
+        log.debug("entrou registrarOrientando");
 
         Usuario usuario = registrarUsuarioMapper.toEntity(usuarioDTO);
         usuarioService.registrarOrientando(usuario);
@@ -83,7 +83,7 @@ public class RegistrarController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
     @PostMapping("/enviarConvite")
     public ResponseEntity<?> enviarConvite(@Validated @RequestBody ConviteDTO conviteDTO) {
-        log.debug("entrou enviarConviteController");
+        log.debug("entrou enviarConvite");
         Convite convite = conviteMapper.toEntity(conviteDTO);
         convite.setUsuarioResponsavel(this.retornaUsuario());
         conviteService.enviarConvite(convite);
