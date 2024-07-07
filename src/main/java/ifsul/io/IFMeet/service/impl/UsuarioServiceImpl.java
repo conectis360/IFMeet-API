@@ -40,6 +40,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     Messages messages;
 
+
+    public Usuario retornarUsuarioLogado(String username) {
+        log.debug("into retornaUsuarioRegistrado method");
+        return usuarioRepository.findByUsuario(username).orElseThrow(()-> new BusinessException(messages.get("usuario.nao-encontrado")));
+    }
     private void retornaUsuarioRegistrado(Usuario usuario) {
         log.debug("into retornaUsuarioRegistrado method");
         if (usuarioRepository.existsByUsuario(usuario.getUsuario())) {

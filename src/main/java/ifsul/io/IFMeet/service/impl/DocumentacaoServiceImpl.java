@@ -35,6 +35,7 @@ public class DocumentacaoServiceImpl implements DocumentacaoService {
     }
 
     public void save(Documentacao documentacao) {
+        documentacaoRepository.save(documentacao);
     }
 
 }

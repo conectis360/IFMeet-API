@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "*")
 @RequestMapping("/v1/trabalho")
 public class TrabalhoController {
 
@@ -35,6 +35,21 @@ public class TrabalhoController {
         log.debug("into findAllTrabalhos method");
         List<TrabalhoDTO> listaDeTrabalhosDTO = new ArrayList<>();
         List<Trabalho> listaDeTrabalhos = trabalhoService.findAllTrabalhos();
+
+        for (Trabalho trabalho : listaDeTrabalhos) {
+            listaDeTrabalhosDTO.add(trabalhoMapper.toDto(trabalho));
+        }
+
+        return ResponseEntity.ok(listaDeTrabalhosDTO);
+    }
+
+    @ApiOperation(value = "Busca por trabalhos", notes = "Busca por trabalhos com orientador especifico no banco")
+    //@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
+    @GetMapping(value = "/findTrabalhoByOrientador", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<TrabalhoDTO>> findAllByOrientador() {
+        log.debug("into findAllByOrientador method");
+        List<TrabalhoDTO> listaDeTrabalhosDTO = new ArrayList<>();
+        List<Trabalho> listaDeTrabalhos = trabalhoService.findAllByOrientador();
 
         for (Trabalho trabalho : listaDeTrabalhos) {
             listaDeTrabalhosDTO.add(trabalhoMapper.toDto(trabalho));
@@ -59,6 +74,7 @@ public class TrabalhoController {
     public void cadastrarTrabalho(@RequestBody TrabalhoDTO trabalhoDTO) {
         log.debug("into cadastrarTrabalho method");
         Trabalho trabalho = trabalhoMapper.toEntity(trabalhoDTO);
+        System.out.println(trabalhoDTO);
         trabalhoService.save(trabalho);
     }
 }

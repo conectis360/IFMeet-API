@@ -25,6 +25,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(origins = "*")
 @RequestMapping("/v1/status")
 public class StatusController {
     @Autowired

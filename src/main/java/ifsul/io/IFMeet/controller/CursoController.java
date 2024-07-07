@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/v1/curso")
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "*")
 public class CursoController {
 
     @Autowired

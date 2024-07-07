@@ -24,6 +24,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(origins = "*")
 @RequestMapping("/v1/tarefa")
 public class TarefaController {
     @Autowired

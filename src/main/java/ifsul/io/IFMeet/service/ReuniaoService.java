@@ -11,6 +11,7 @@ public interface ReuniaoService {
     Optional<Reuniao> findById(Long id);
 
     List<Reuniao> findAll();
+    List<Reuniao> findAllByOrientador();
 
     void save(Reuniao reuniao);
 }

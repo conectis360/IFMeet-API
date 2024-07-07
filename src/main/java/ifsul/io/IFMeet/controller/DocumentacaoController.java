@@ -25,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/v1/documentacao")
+@CrossOrigin(origins = "*")
 public class DocumentacaoController {
     @Autowired
     DocumentacaoMapper documentacaoMapper;
@@ -62,6 +63,7 @@ public class DocumentacaoController {
     public ResponseEntity<Void> registrarDocumentacao(@RequestBody DocumentacaoDTO documentacaoDTO) {
         log.debug("entrou registrarDocumentacao");
         Documentacao documentacao = documentacaoMapper.toEntity(documentacaoDTO);
+        System.out.println(documentacao);
         documentacaoService.save(documentacao);
         return ResponseEntity.ok().build();
     }

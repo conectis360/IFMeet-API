@@ -20,11 +20,12 @@ public class ReuniaoDTO {
 
     private LocalDateTime data;
 
-    private Timestamp horaInicio;
-
-    private Timestamp horaFim;
-
     private String pauta;
 
-    private Usuario proponente;
+    private Usuario orientador;
+    private Usuario orientando;
+
+    private Boolean realizada;
+
+    private Boolean aceita;
 }

@@ -18,6 +18,7 @@ public interface TrabalhoMapper extends BeanMapper<Trabalho, TrabalhoDTO>{
     @Mapping(source = "id", target = "codigoTrabalho")
     @Mapping(source = "curso.id", target = "curso.codigoCurso")
     @Mapping(source = "aluno.id", target = "aluno.codigoUsuario")
+    @Mapping(source = "orientador.id", target = "orientador.codigoUsuario")
     TrabalhoDTO toDto(Trabalho trabalho);
 
 }

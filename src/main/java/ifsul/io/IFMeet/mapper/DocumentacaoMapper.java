@@ -18,6 +18,7 @@ public interface DocumentacaoMapper extends BeanMapper<Documentacao, Documentaca
 
     @Override
     @Mapping(source = "id", target = "codigoDocumentacao")
+    @Mapping(source = "trabalho.id", target = "trabalho.codigoTrabalho")
     DocumentacaoDTO toDto(Documentacao documentacao);
 
 }

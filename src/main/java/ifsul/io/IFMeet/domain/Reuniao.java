@@ -26,10 +26,10 @@ public class Reuniao {
     @Column(name = "data")
     private LocalDateTime data;
 
-    @Column(name = "horaInicio")
+    @Column(name = "hora_inicio")
     private Timestamp horaInicio;
 
-    @Column(name = "horaFim")
+    @Column(name = "hora_fim")
     private Timestamp horaFim;
 
     @Column(name = "pauta")
@@ -40,7 +40,14 @@ public class Reuniao {
     private Status status;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orientando_id")
+    private Usuario orientando;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orientador_id")
+    private Usuario orientador;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "proponente_id")
     private Usuario proponente;
-
 }

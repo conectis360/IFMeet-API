@@ -22,6 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/v1/ata")
+@CrossOrigin(origins = "*")
 public class AtaController {
 
     @Autowired

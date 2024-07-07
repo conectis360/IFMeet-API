@@ -32,7 +32,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "*")
 @RequestMapping("/v1/registrarUsuario")
 public class RegistrarController {
 

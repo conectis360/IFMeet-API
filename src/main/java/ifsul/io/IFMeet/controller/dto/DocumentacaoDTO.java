@@ -14,6 +14,6 @@ public class DocumentacaoDTO {
     private Long codigoDocumentacao;
 
     private Reuniao reuniao;
-    private Trabalho trabalho;
+    private TrabalhoDTO trabalho;
     private String descricao;
 }

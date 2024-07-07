@@ -24,6 +24,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(origins = "*")
 @RequestMapping("/v1/reuniao")
 public class ReuniaoController {
     @Autowired
@@ -45,7 +46,7 @@ public class ReuniaoController {
         return ResponseEntity.ok(listaReuniaoDTO);
     }
 
-    @ApiOperation(value = "Retornar Curso por ID", notes = "Cadastra um novo curso")
+    @ApiOperation(value = "Retornar Reunião por ID", notes = "Retornar Reunião por ID")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ReuniaoDTO> findById(@PathVariable("id") Long id) {
@@ -54,6 +55,19 @@ public class ReuniaoController {
         Reuniao reuniao = reuniaoOptional.orElse(null);
         ReuniaoDTO reuniaoDTO = reuniaoMapper.toDto(reuniao);
         return ResponseEntity.ok(reuniaoDTO);
+    }
+
+    @ApiOperation(value = "Retornar Reunião por ID", notes = "Retornar Reunião por ID")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
+    @GetMapping(value = "/findAllByUser", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<ReuniaoDTO>> findAllByOrientador() {
+        log.debug("entrou findAllByOrientador");
+        List<Reuniao> reuniaoLista = reuniaoService.findAllByOrientador();
+        List<ReuniaoDTO> reunioes = new ArrayList<>();
+        for (Reuniao reuniao : reuniaoLista) {
+            reunioes.add(reuniaoMapper.toDto(reuniao));
+        }
+        return ResponseEntity.ok(reunioes);
     }
 
     @ApiOperation(value = "Cadastrar Reuniao", notes = "Cadastra uma nova Reuniao")
