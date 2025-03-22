@@ -1,6 +1,6 @@
 package ifsul.io.IFMeet.security;
 
-import ifsul.io.IFMeet.service.impl.UserDetailsImpl;
+import ifsul.io.IFMeet.domain.usuario.model.User;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class JwtUtils {
 
     public String generateJwtToken(Authentication authentication) {
 
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        User userPrincipal = (User) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))

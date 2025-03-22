@@ -2,7 +2,7 @@ package ifsul.io.IFMeet.security;
 
 
 import ifsul.io.IFMeet.components.Messages;
-import ifsul.io.IFMeet.repository.UsuarioRepository;
+import ifsul.io.IFMeet.domain.usuario.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

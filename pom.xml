@@ -18,6 +18,7 @@
 		<lombok.version>1.18.20</lombok.version>
 		<mapstruct.version>1.4.1.Final</mapstruct.version>
 		<swagger.version>2.9.2</swagger.version>
+		<springdoc-openapi-ui.version>1.6.9</springdoc-openapi-ui.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -49,7 +50,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>${springdoc-openapi-ui.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
