@@ -1,10 +1,11 @@
 package ifsul.io.IFMeet.api.notificacao.controller;
 
 import ifsul.io.IFMeet.api.notificacao.dto.NotificacaoDTO;
-import ifsul.io.IFMeet.api.notificacao.dto.NotificacaoFilterDto;
+import ifsul.io.IFMeet.api.notificacao.dto.NotificacaoViewDTO;
+import ifsul.io.IFMeet.api.notificacao.dto.NotificacaoViewFilterDto;
+import ifsul.io.IFMeet.api.notificacao.dto.NotificacoesDTO;
 import ifsul.io.IFMeet.api.notificacao.mapper.NotificacaoMapper;
 import ifsul.io.IFMeet.domain.notificacao.model.Notificacao;
-import ifsul.io.IFMeet.domain.notificacao.model.QuantidadeNotificacoesDto;
 import ifsul.io.IFMeet.domain.notificacao.service.NotificacaoService;
 import ifsul.io.IFMeet.payload.response.DefaultPaginationResponse;
 import ifsul.io.IFMeet.payload.response.DefaultRequestParams;
@@ -17,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,9 +33,9 @@ public class NotificacaoController {
     @ApiOperation(value = "Retornar todas as notificações", notes = "Retornar todas as notificações por filtro")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @GetMapping(value = "/findAll", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public DefaultPaginationResponse<NotificacaoDTO> findAll(@ParameterObject DefaultRequestParams request, @ParameterObject NotificacaoFilterDto notificacaoFilterDto) {
+    public DefaultPaginationResponse<NotificacaoViewDTO> findAll(@ParameterObject DefaultRequestParams request, @ParameterObject NotificacaoViewFilterDto notificacaoViewFilterDto) {
         log.debug("into findAll");
-        return notificacaoService.findAll(request, notificacaoFilterDto);
+        return notificacaoService.findAll(request, notificacaoViewFilterDto);
     }
 
     @ApiOperation(value = "Retornar notificação por ID", notes = "Retorna notificação por ID")
@@ -51,17 +51,9 @@ public class NotificacaoController {
 
     @ApiOperation(value = "Retornar todas as notificações", notes = "Retornar todas as notificações por filtro")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
-    @GetMapping(value = "/count-notificacoes-by-tipo", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<QuantidadeNotificacoesDto> findCountNotificacoesTipo() {
+    @GetMapping(value = "/count", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public NotificacoesDTO findCountNotificacoesTipo() {
         log.debug("into findCountNotificacoes");
         return notificacaoService.quantidadeDeNotificacoesPorTipo();
-    }
-
-    @ApiOperation(value = "Retornar todas as notificações", notes = "Retornar todas as notificações por filtro")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
-    @GetMapping(value = "/count-notificacoes", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Long findCountTotalNotificacoes() {
-        log.debug("into findCountNotificacoes");
-        return notificacaoService.quantidadeNotificacoes();
     }
 }

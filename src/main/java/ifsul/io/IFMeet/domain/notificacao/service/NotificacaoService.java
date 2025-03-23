@@ -1,13 +1,15 @@
 package ifsul.io.IFMeet.domain.notificacao.service;
 
-import ifsul.io.IFMeet.api.notificacao.dto.NotificacaoDTO;
-import ifsul.io.IFMeet.api.notificacao.dto.NotificacaoFilterDto;
+import ifsul.io.IFMeet.api.notificacao.dto.NotificacaoViewDTO;
+import ifsul.io.IFMeet.api.notificacao.dto.NotificacaoViewFilterDto;
+import ifsul.io.IFMeet.api.notificacao.dto.NotificacoesDTO;
 import ifsul.io.IFMeet.api.notificacao.mapper.NotificacaoMapper;
+import ifsul.io.IFMeet.api.notificacao.mapper.NotificacaoViewMapper;
 import ifsul.io.IFMeet.components.Messages;
 import ifsul.io.IFMeet.domain.notificacao.model.Notificacao;
-import ifsul.io.IFMeet.domain.notificacao.model.QuantidadeNotificacoesDto;
 import ifsul.io.IFMeet.domain.notificacao.repository.NotificacaoRepository;
-import ifsul.io.IFMeet.domain.notificacao.spec.NotificacaoSpecs;
+import ifsul.io.IFMeet.domain.notificacao.repository.NotificacaoViewRepository;
+import ifsul.io.IFMeet.domain.notificacao.spec.NotificacaoViewSpecs;
 import ifsul.io.IFMeet.domain.usuario.model.Usuario;
 import ifsul.io.IFMeet.domain.usuario.service.UsuarioService;
 import ifsul.io.IFMeet.exception.exceptions.BusinessException;
@@ -30,8 +32,10 @@ public class NotificacaoService {
 
 
     private final NotificacaoRepository notificacaoRepository;
+    private final NotificacaoViewRepository notificacaoViewRepository;
     private final UsuarioService usuarioService;
     private final NotificacaoMapper notificacaoMapper;
+    private final NotificacaoViewMapper notificacaoViewMapper;
     private final PageRequestHelper pageRequestHelper;
     private final Messages messages;
 
@@ -39,15 +43,18 @@ public class NotificacaoService {
         return notificacaoRepository.findById(codigoStatus);
     }
 
-    public DefaultPaginationResponse<NotificacaoDTO> findAll(DefaultRequestParams request, NotificacaoFilterDto notificacaoFilterDto) {
+    public DefaultPaginationResponse<NotificacaoViewDTO> findAll(DefaultRequestParams request, NotificacaoViewFilterDto notificacaoFilterDto) {
         log.debug("into findAll method");
-        Page<NotificacaoDTO> pageResult = notificacaoRepository
-                .findAll(NotificacaoSpecs.notificacaoFilter(notificacaoFilterDto), pageRequestHelper.getPageRequest(request))
-                .map(notificacaoMapper::toDto);
+        Usuario usuario = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
+        notificacaoFilterDto.setCodigoUsuario(usuario.getId());
 
-        List<NotificacaoDTO> listaReunioes = pageResult.getContent();
+        Page<NotificacaoViewDTO> pageResult = notificacaoViewRepository
+                .findAll(NotificacaoViewSpecs.notificacaoFilter(notificacaoFilterDto), pageRequestHelper.getPageRequest(request))
+                .map(notificacaoViewMapper::toDto);
 
-        return DefaultPaginationResponse.<NotificacaoDTO>builder()
+        List<NotificacaoViewDTO> listaReunioes = pageResult.getContent();
+
+        return DefaultPaginationResponse.<NotificacaoViewDTO>builder()
                 .pageNumber(request.getPageNumber())
                 .totalPages(pageResult.getTotalPages())
                 .totalRecords(pageResult.getTotalElements())
@@ -59,14 +66,17 @@ public class NotificacaoService {
     public void save(Notificacao status) {
     }
 
-    public List<QuantidadeNotificacoesDto> quantidadeDeNotificacoesPorTipo() {
+    public NotificacoesDTO quantidadeDeNotificacoesPorTipo() {
         Usuario usuario = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
-        return notificacaoRepository.countNotificacoesPorUsuarioETipo(usuario.getId());
+
+        return NotificacoesDTO.builder()
+                .quantidadeNotificacoesDtoList(notificacaoRepository.countNotificacoesPorUsuarioETipo(usuario.getId()))
+                .total(this.quantidadeNotificacoes(usuario.getId()))
+                .build();
     }
 
-    public Long quantidadeNotificacoes() {
-        Usuario usuario = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
-        return notificacaoRepository.quantidadeDeNotificacoesPorUsuario(usuario.getId());
+    public Long quantidadeNotificacoes(Long usuarioId) {
+        return notificacaoRepository.quantidadeDeNotificacoesPorUsuario(usuarioId);
     }
 
 }
