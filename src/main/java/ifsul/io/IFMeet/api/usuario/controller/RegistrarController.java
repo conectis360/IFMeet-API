@@ -37,12 +37,11 @@ public class RegistrarController {
     private final UsuarioRepository usuarioRepository;
 
     @ApiOperation(value = "Registra usuario", notes = "Faz cadastro de novos usuarios")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> save(@RequestBody RegistrarUsuarioDTO usuarioDTO) {
         log.debug("into save");
         Usuario usuario = registrarUsuarioMapper.toEntity(usuarioDTO);
-        usuarioService.registrarOrientando(usuario);
+        usuarioService.registrarUsuario(usuario, usuarioDTO.getTipoUsuario());
 
         return ResponseEntity.ok().build();
     }

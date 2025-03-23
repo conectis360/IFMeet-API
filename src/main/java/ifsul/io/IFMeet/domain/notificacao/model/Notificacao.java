@@ -4,7 +4,6 @@ import ifsul.io.IFMeet.domain.usuario.model.Usuario;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,4 +32,8 @@ public class Notificacao {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "tipo_notificacao_id", referencedColumnName = "id")
+    private TipoNotificacao tipoNotificacao;
 }

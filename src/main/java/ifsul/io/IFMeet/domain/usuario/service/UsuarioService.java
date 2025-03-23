@@ -5,6 +5,7 @@ import ifsul.io.IFMeet.api.usuario.dto.UsuarioFilterDto;
 import ifsul.io.IFMeet.api.usuario.mapper.UsuarioMapper;
 import ifsul.io.IFMeet.components.Messages;
 import ifsul.io.IFMeet.config.Role;
+import ifsul.io.IFMeet.domain.usuario.enums.TipoUsuarioEnum;
 import ifsul.io.IFMeet.domain.usuario.model.TipoUsuario;
 import ifsul.io.IFMeet.domain.usuario.model.Usuario;
 import ifsul.io.IFMeet.domain.usuario.repository.TipoUsuarioRepository;
@@ -70,37 +71,38 @@ public class UsuarioService {
         }
     }
 
-    public void registrarOrientador(Usuario usuario) {
-        log.debug("into registrar method");
+    public void registrarUsuario(Usuario usuario, TipoUsuarioEnum tipoUsuario) {
+        log.debug("into registrarUsuario method");
         this.retornaUsuarioRegistrado(usuario);
         Usuario user = new Usuario(usuario.getUsuario(), usuario.getEmail(), encoder.encode(usuario.getSenha()));
-        user.setTipoUsuario(this.devolvePermissoesOrientando());
+
+        switch (tipoUsuario) {
+            case ORIENTADOR:
+                user.setTipoUsuario(this.devolvePermissoes(Role.ROLE_ORIENTADOR));
+                break;
+            case ORIENTANDO:
+                user.setTipoUsuario(this.devolvePermissoes(Role.ROLE_ORIENTANDO));
+                break;
+            case ADMIN:
+                user.setTipoUsuario(this.devolvePermissoes(Role.ROLE_ADMIN));
+                break;
+            default:
+                throw new IllegalArgumentException("Tipo de usuário inválido");
+        }
+
         usuarioRepository.save(user);
     }
 
-    public void registrarOrientando(Usuario usuario) {
-        log.debug("into registrar method");
-        this.retornaUsuarioRegistrado(usuario);
-        Usuario user = new Usuario(usuario.getUsuario(), usuario.getEmail(), encoder.encode(usuario.getSenha()));
-        user.setTipoUsuario(this.devolvePermissoesOrientando());
-        usuarioRepository.save(user);
-    }
 
-    public void registrarAdmin(Usuario usuario) {
-        log.debug("into registrar method");
-        this.retornaUsuarioRegistrado(usuario);
-        Usuario user = new Usuario(usuario.getUsuario(), usuario.getEmail(), encoder.encode(usuario.getSenha()));
-        user.setTipoUsuario(this.devolvePermissoesOrientando());
-        usuarioRepository.save(user);
-    }
-
-    private Set<TipoUsuario> devolvePermissoesOrientando() {
+    private Set<TipoUsuario> devolvePermissoes(Role role) {
         log.debug("into devolvePermissoes method");
         Set<TipoUsuario> roles = new HashSet<>();
 
-        TipoUsuario userRole = tipoUsuarioRepository.findByTipoUsuario(Role.ROLE_ORIENTANDO).orElseThrow(() -> new RuntimeException(messages.get("permissoes.permissao-inexistente")));
-        roles.add(userRole);
+        TipoUsuario userRole = tipoUsuarioRepository.findByTipoUsuario(role)
+                .orElseThrow(() -> new RuntimeException(messages.get("permissoes.permissao-inexistente")));
 
+        roles.add(userRole);
         return roles;
     }
+
 }

@@ -13,10 +13,12 @@ public interface RegistrarUsuarioMapper extends BeanMapper<Usuario, RegistrarUsu
 
     @Override
     @InheritInverseConfiguration
+    @Mapping(target = "tipoUsuario", ignore = true)
     Usuario toEntity(RegistrarUsuarioDTO registrarUsuarioDTO);
 
     @Override
     @Mapping(source = "id", target = "id")
+    @Mapping(target = "tipoUsuario", ignore = true)
     RegistrarUsuarioDTO toDto(Usuario usuario);
 
 }

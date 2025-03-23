@@ -33,6 +33,9 @@ public class Usuario {
     @Column(name = "nome")
     private String nome;
 
+    @Column(name = "foto", columnDefinition = "bytea") // Nova coluna para a foto (bytea no banco de dados)
+    private byte[] foto; // Armazena a foto como um array de bytes
+
     @JsonIgnore
     @Column(name = "senha")
     private String senha;

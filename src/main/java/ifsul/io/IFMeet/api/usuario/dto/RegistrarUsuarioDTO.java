@@ -1,5 +1,6 @@
 package ifsul.io.IFMeet.api.usuario.dto;
 
+import ifsul.io.IFMeet.domain.usuario.enums.TipoUsuarioEnum;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +25,7 @@ public class RegistrarUsuarioDTO {
         @Email
         private String email;
 
-        private Set<String> role;
+        private TipoUsuarioEnum tipoUsuario;
 
         @NotBlank
         @Size(min = 6, max = 10)

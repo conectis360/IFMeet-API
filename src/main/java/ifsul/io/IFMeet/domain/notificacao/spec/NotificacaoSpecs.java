@@ -2,6 +2,9 @@ package ifsul.io.IFMeet.domain.notificacao.spec;
 
 import ifsul.io.IFMeet.api.notificacao.dto.NotificacaoFilterDto;
 import ifsul.io.IFMeet.domain.ata.model.Ata;
+import ifsul.io.IFMeet.domain.notificacao.model.Notificacao;
+import ifsul.io.IFMeet.domain.notificacao.model.Notificacao_;
+import ifsul.io.IFMeet.domain.usuario.model.Usuario_;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,12 +19,12 @@ import java.util.List;
 @Service
 public class NotificacaoSpecs {
 
-    public static Specification<Ata> notificacaoFilter(NotificacaoFilterDto notificacaoFilterDto) {
+    public static Specification<Notificacao> notificacaoFilter(NotificacaoFilterDto notificacaoFilterDto) {
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             if (notificacaoFilterDto.getCodigoUsuario() != null) {
-                //predicates.add(root.get(Notificacao_.).get(Reuniao_.ID).in(notificacaoFilterDto.getCodigoUsuario()));
+                predicates.add(root.get(Notificacao_.USUARIO).get(Usuario_.ID).in(notificacaoFilterDto.getCodigoUsuario()));
             }
 
             query.distinct(true);
