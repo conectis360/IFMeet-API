@@ -56,7 +56,6 @@ public class DocumentacaoController {
     public ResponseEntity<Void> save(@RequestBody DocumentacaoDTO documentacaoDTO) {
         log.debug("into save");
         Documentacao documentacao = documentacaoMapper.toEntity(documentacaoDTO);
-        System.out.println(documentacao);
         documentacaoService.save(documentacao);
         return ResponseEntity.ok().build();
     }
