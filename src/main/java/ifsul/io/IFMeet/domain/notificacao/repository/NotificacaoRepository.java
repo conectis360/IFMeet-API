@@ -44,7 +44,7 @@ public interface NotificacaoRepository extends JpaRepository<Notificacao, Long>,
                     "    u.nome;",
             nativeQuery = true
     )
-    Long quantidadeDeNotificacoesPorUsuario(Long usuario);
+    Long quantidadeDeNotificacoesPorUsuario(@Param("usuario") Long usuario);
 
 
 }
