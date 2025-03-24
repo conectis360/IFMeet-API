@@ -61,7 +61,10 @@ public class TrabalhoService {
     @Transactional
     public void save(Trabalho trabalho) {
         log.debug("into save method");
-        this.validaOrientando(trabalho.getAluno().getId());
+        System.out.println(trabalho);
+        if(trabalho.getId() == null) {
+            this.validaOrientando(trabalho.getAluno().getId());
+        }
         trabalhoRepository.save(trabalho);
     }
 
