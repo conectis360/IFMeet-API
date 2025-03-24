@@ -31,7 +31,6 @@ public class ConviteService {
 
     public void enviarConvite(Convite convite) {
         log.debug("entrou enviarConvite");
-        System.out.println(convite);
         if (this.checarEmailCadastrado(convite.getEmailAluno())) {
             throw new BusinessException(messages.get("convite.email-ja-cadastrado"));
         }
