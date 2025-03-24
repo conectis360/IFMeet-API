@@ -2,10 +2,8 @@ package ifsul.io.IFMeet.api.ata.controller;
 
 import ifsul.io.IFMeet.api.ata.dto.AtaDTO;
 import ifsul.io.IFMeet.api.ata.dto.AtaFilterDto;
-import ifsul.io.IFMeet.api.tarefa.dto.TarefaDTO;
-import ifsul.io.IFMeet.api.tarefa.dto.TarefaFilterDto;
-import ifsul.io.IFMeet.domain.ata.model.Ata;
 import ifsul.io.IFMeet.api.ata.mapper.AtaMapper;
+import ifsul.io.IFMeet.domain.ata.model.Ata;
 import ifsul.io.IFMeet.domain.ata.service.AtaService;
 import ifsul.io.IFMeet.payload.response.DefaultPaginationResponse;
 import ifsul.io.IFMeet.payload.response.DefaultRequestParams;
@@ -18,8 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -45,7 +41,7 @@ public class AtaController {
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<AtaDTO> findById(@PathVariable("id") Long id) {
         log.debug("into findById");
-         Optional<Ata> ataOptional = ataService.findById(id);
+        Optional<Ata> ataOptional = ataService.findById(id);
         Ata ata = ataOptional.orElse(null);
         AtaDTO ataDTO = ataMapper.toDto(ata);
         return ResponseEntity.ok(ataDTO);
