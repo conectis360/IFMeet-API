@@ -206,7 +206,7 @@ public class EmailService {
                 "                                              <tbody>\n" +
                 "                                                <tr>\n" +
                 "                                                  <td style=\"line-height: 24px; font-size: 16px; border-radius: 6px; margin: 0;\" align=\"center\" bgcolor=\"#198754\">\n" +
-                "                                                    <a href=\"http://localhost:9000/registrar={codigoSecreto}\" target=\"_blank\" style=\"color: #ffffff; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 6px; line-height: 20px; display: block; font-weight: normal; white-space: nowrap; background-color: #198754; padding: 8px 12px; border: 1px solid #198754;\">Ir para p&#225;gina de cadastro</a>\n" +
+                "                                                    <a href=\"http://localhost:8081/registrar?codigo={codigoSecreto}\" target=\"_blank\" style=\"color: #ffffff; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 6px; line-height: 20px; display: block; font-weight: normal; white-space: nowrap; background-color: #198754; padding: 8px 12px; border: 1px solid #198754;\">Ir para p&#225;gina de cadastro</a>\n" +
                 "                                                  </td>\n" +
                 "                                                </tr>\n" +
                 "                                              </tbody>\n" +
