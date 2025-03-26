@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +29,22 @@ public class AtaService {
     private final PageRequestHelper pageRequestHelper;
 
     public Optional<Ata> findById(Long id) {
+        log.debug("into findById method");
         return ataRepository.findById(id);
+    }
+
+    /**
+     * Busca uma Ata pelo ID e lança uma EntityNotFoundException caso não encontre.
+     * Utiliza Java 8 Optional para tratar a ausência do registro.
+     *
+     * @param id O ID da Ata a ser buscada.
+     * @return A Ata encontrada.
+     * @throws EntityNotFoundException se a Ata não for encontrada.
+     */
+    public Ata findByIdOrFail(Long id) {
+        log.debug("into findByIdOrFail method, id: {}", id);
+        return this.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Ata não encontrada com o ID: " + id));
     }
 
     public DefaultPaginationResponse<AtaDTO> findAll(DefaultRequestParams request, AtaFilterDto ataFilterDto) {
@@ -49,6 +65,12 @@ public class AtaService {
     }
 
     public void save(Ata ata) {
+        log.debug("into save method");
+        ataRepository.save(ata);
+    }
+
+    public void update(Ata ata) {
+        log.debug("into update method");
         ataRepository.save(ata);
     }
 

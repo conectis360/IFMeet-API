@@ -56,4 +56,14 @@ public class AtaController {
         ataService.save(ata);
         return ResponseEntity.ok().build();
     }
+
+    @ApiOperation(value = "Update Ata", notes = "Atualiza uma Ata")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Void> update(@RequestBody AtaDTO ataDTO) {
+        log.debug("into save");
+        Ata ata = ataMapper.toEntity(ataDTO);
+        ataService.update(ata);
+        return ResponseEntity.ok().build();
+    }
 }
