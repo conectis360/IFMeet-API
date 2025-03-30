@@ -13,18 +13,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class CalendarEventDTO {
-
-    private Long codigoEvento;
-
-    private String titulo;
-
-    private String descricao;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/YYYY' 'hh:mm:ss")
-    private LocalDateTime dataInicial;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/YYYY' 'hh:mm:ss")
-    private LocalDateTime dataFinal;
-
-    private String eventoCor;
+    private Long id;
+    private String title;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime start;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime end;
+    private String description;
+    private String color;
+    private String backgroundColor;
+    private Boolean allDay;
 }

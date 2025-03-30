@@ -12,11 +12,18 @@ import org.mapstruct.Mapping;
 public interface CalendarEventMapper extends BeanMapper<CalendarEvent, CalendarEventDTO> {
 
     @Override
-    @InheritInverseConfiguration
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "title", target = "titulo")
+    @Mapping(source = "description", target = "descricao")
+    @Mapping(source = "start", target = "dataInicial")
+    @Mapping(source = "end", target = "dataFinal")
+    @Mapping(source = "color", target = "eventoCor")
+    @Mapping(source = "backgroundColor", target = "eventoCorFundo")
+    @Mapping(source = "allDay", target = "diaInteiro")
     CalendarEvent toEntity(CalendarEventDTO calendarEventDTO);
 
     @Override
-    @Mapping(source = "id", target = "codigoEvento")
+    @InheritInverseConfiguration
     CalendarEventDTO toDto(CalendarEvent calendarEvent);
 
 }

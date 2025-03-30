@@ -38,6 +38,12 @@ public class CalendarEvent {
     @Column(name = "evento_cor")
     private String eventoCor;
 
+    @Column(name = "evento_cor_fundo")
+    private String eventoCorFundo;
+
+    @Column(name = "dia_inteiro")
+    private Boolean diaInteiro;
+
     @OneToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
