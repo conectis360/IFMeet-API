@@ -11,6 +11,7 @@ import ifsul.io.IFMeet.payload.response.DefaultRequestParams;
 import ifsul.io.IFMeet.utils.PageRequestHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,46 @@ public class AtaService {
                 .orElseThrow(() -> new EntityNotFoundException("Ata não encontrada com o ID: " + id));
     }
 
+    /**
+     * Busca paginada de atas (reuniões) com filtros aplicáveis.
+     *
+     * <p>Este método realiza uma consulta paginada no repositório de atas, aplicando filtros opcionais
+     * e convertendo os resultados para DTOs antes de retornar uma estrutura padronizada de paginação.</p>
+     *
+     * <p><b>Fluxo de execução:</b></p>
+     * <ol>
+     *   <li>Gera log de entrada no método</li>
+     *   <li>Converte parâmetros de paginação para PageRequest</li>
+     *   <li>Aplica filtros através de Specifications</li>
+     *   <li>Executa consulta paginada no repositório</li>
+     *   <li>Mapeia entidades para DTOs</li>
+     *   <li>Constrói resposta padronizada de paginação</li>
+     * </ol>
+     *
+     * @param request Parâmetros padrão de paginação (obrigatório)
+     * @param ataFilterDto Filtros específicos para pesquisa de atas (opcional)
+     * @return {@code DefaultPaginationResponse<AtaDTO>} contendo:
+     *         <ul>
+     *           <li>Lista de atas paginada</li>
+     *           <li>Metadados de paginação</li>
+     *         </ul>
+     *
+     * @throws IllegalArgumentException Se {@code request} for nulo
+     * @throws DataAccessException Em caso de falha no acesso aos dados
+     *
+     * @see DefaultRequestParams
+     * @see AtaFilterDto
+     * @see DefaultPaginationResponse
+     * @see AtaSpecs#ataFilter(AtaFilterDto)
+     * @see PageRequestHelper#getPageRequest(DefaultRequestParams)
+     *
+     * @sample
+     * // Exemplo de uso:
+     * DefaultRequestParams params = new DefaultRequestParams(1, 10);
+     * AtaFilterDto filtro = new AtaFilterDto("Reunião Mensal", "2023-01-01", "2023-12-31");
+     *
+     * DefaultPaginationResponse<AtaDTO> resultado = ataService.findAll(params, filtro);
+     */
     public DefaultPaginationResponse<AtaDTO> findAll(DefaultRequestParams request, AtaFilterDto ataFilterDto) {
         log.debug("into findAll method");
         Page<AtaDTO> pageResult = ataRepository
