@@ -10,7 +10,7 @@ RUN mkdir /app && \
 WORKDIR /app
 
 # Copy the JAR file (make sure the name matches the build output)
-COPY target/*.jar app.jar
+COPY ${JAR_FILE} app.jar
 
 # Set Spring profile to production via ARG and ENV
 ARG SPRING_PROFILE
