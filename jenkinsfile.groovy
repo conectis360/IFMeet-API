@@ -21,12 +21,12 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Constrói a imagem Docker
-                    sh """
-                        docker build -t ${DOCKER_IMAGE_NAME}:latest \\
-                            --build-arg SPRING_PROFILE=${SPRING_PROFILE} \\
-                            --build-arg JAVA_OPTS="${JAVA_OPTS}" \\
-                            -f ${DOCKERFILE_PATH} .
+                    // Construir a imagem no Windows (usando `bat`)
+                    bat """
+                        docker build -t %DOCKER_IMAGE_NAME%:latest ^
+                            --build-arg SPRING_PROFILE=%SPRING_PROFILE% ^
+                            --build-arg JAVA_OPTS="%JAVA_OPTS%" ^
+                            -f %DOCKERFILE_PATH% .
                     """
                 }
             }
@@ -36,13 +36,13 @@ pipeline {
             steps {
                 script {
                     // Faz login no DockerHub (se necessário)
-                    sh "docker login -u \$DOCKER_USERNAME -p \$DOCKER_PASSWORD"
+                    bat "docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD%"
 
                     // Marca a imagem com o repositório remoto
-                    sh "docker tag ${DOCKER_IMAGE_NAME}:latest ${DOCKER_REGISTRY}:latest"
+                    bat "docker tag %DOCKER_IMAGE_NAME%:latest %DOCKER_REGISTRY%:latest"
 
                     // Faz push da imagem para o registro
-                    sh "docker push ${DOCKER_REGISTRY}:latest"
+                    bat "docker push %DOCKER_REGISTRY%:latest"
                 }
             }
         }
@@ -51,8 +51,8 @@ pipeline {
             steps {
                 script {
                     // Para e remove qualquer container em execução com o mesmo nome
-                    sh "docker stop ${DOCKER_CONTAINER_NAME} || true"
-                    sh "docker rm ${DOCKER_CONTAINER_NAME} || true"
+                    bat "docker stop %DOCKER_CONTAINER_NAME% || exit 0"
+                    bat "docker rm %DOCKER_CONTAINER_NAME% || exit 0"
                 }
             }
         }
@@ -61,16 +61,16 @@ pipeline {
             steps {
                 script {
                     // Puxa a versão mais recente da imagem antes de rodar o container
-                    sh "docker pull ${DOCKER_REGISTRY}:latest"
+                    bat "docker pull %DOCKER_REGISTRY%:latest"
 
                     // Executa o novo container
-                    sh """
-                        docker run -d \\
-                            --name ${DOCKER_CONTAINER_NAME} \\
-                            -p ${SERVER_PORT}:${SERVER_PORT} \\
-                            -e SPRING_PROFILES_ACTIVE=${SPRING_PROFILE} \\
-                            -e JAVA_OPTS="${JAVA_OPTS}" \\
-                            ${DOCKER_REGISTRY}:latest
+                    bat """
+                        docker run -d ^
+                            --name %DOCKER_CONTAINER_NAME% ^
+                            -p %SERVER_PORT%:%SERVER_PORT% ^
+                            -e SPRING_PROFILES_ACTIVE=%SPRING_PROFILE% ^
+                            -e JAVA_OPTS="%JAVA_OPTS%" ^
+                            %DOCKER_REGISTRY%:latest
                     """
                 }
             }
