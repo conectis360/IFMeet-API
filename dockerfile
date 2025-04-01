@@ -12,11 +12,16 @@ WORKDIR /app
 # Copy the JAR file (make sure the name matches the build output)
 COPY target/*.jar app.jar
 
-# Set Spring profile to production
-ENV SPRING_PROFILES_ACTIVE=prd
+# Set Spring profile to production via ARG and ENV
+ARG SPRING_PROFILE
+ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILE}
 
 # Expose the application port
 EXPOSE 9000
 
+# Set Java options via ARG and ENV
+ARG JAVA_OPTS
+ENV JAVA_OPTS=${JAVA_OPTS}
+
 # Run the application (use the correct JAR name)
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "${JAVA_OPTS}", "-jar", "app.jar"]
