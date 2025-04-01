@@ -1,27 +1,7 @@
 FROM openjdk:8-jre-alpine
-
-# Set timezone and update packages
-RUN mkdir /app && \
-    rm -f /etc/localtime && \
-    ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
-    apk upgrade --no-cache && \
-    adduser -D -H ifmeet
-
 WORKDIR /app
-
-ARG JAR_FILE
-COPY ${JAR_FILE} app.jar
-
-# Set Spring profile to production via ARG and ENV
+COPY *.jar app.jar
 ARG SPRING_PROFILE
 ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILE}
-
-# Expose the application port
 EXPOSE 9000
-
-# Set Java options via ARG and ENV
-ARG JAVA_OPTS
-ENV JAVA_OPTS=${JAVA_OPTS}
-
-# Run the application (use the correct JAR name)
 ENTRYPOINT ["java", "-Xms512m", "-Xmx1024m", "-jar", "/app/app.jar"]

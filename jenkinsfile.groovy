@@ -26,7 +26,8 @@ pipeline {
         stage('🔨 Build do Projeto Java') {
             steps {
                 script {
-                    bat 'mvn clean install package -DskipTests'  // Windows CMD
+                    bat 'mvn clean install package -DskipTests'
+                    bat 'dir target\\*.jar'  // Windows (listar JARs)
                 }
             }
         }
@@ -34,8 +35,8 @@ pipeline {
         stage('📦 Preparar Artefato para Docker') {
             steps {
                 script {
-                    // Move o JAR para um local adequado para o build do Docker
-                    bat "move target\\*.jar ${JAR_NAME}"
+                    bat "copy target\\*.jar ${JAR_NAME} || echo ❌ Falha ao copiar o JAR"
+                    bat "dir ${JAR_NAME} || echo ❌ Arquivo JAR não encontrado"
                 }
             }
         }
