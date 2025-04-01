@@ -5,7 +5,7 @@ pipeline {
         REPO_URL = 'https://github.com/conectis360/IFMeet-API.git'  // 🔹 Seu repositório Git
         BRANCH = 'master'  // 🔹 Branch a ser usado
 
-        JAR_NAME = '*.jar'  // 🔹 Nome do arquivo gerado pelo Maven
+        JAR_NAME = 'IFMeet-0.0.1-SNAPSHOT.jar'  // Nome exato do arquivo
         APP_NAME = 'ifmeet-api'  // 🔹 Nome da aplicação
 
         DOCKER_IMAGE = 'ifmeet-api'  // 🔹 Nome da imagem Docker
@@ -35,8 +35,7 @@ pipeline {
         stage('📦 Preparar Artefato para Docker') {
             steps {
                 script {
-                    bat "copy target\\*.jar ${JAR_NAME} || echo ❌ Falha ao copiar o JAR"
-                    bat "dir ${JAR_NAME} || echo ❌ Arquivo JAR não encontrado"
+                    bat "copy target\\IFMeet-0.0.1-SNAPSHOT.jar .\\"
                 }
             }
         }
