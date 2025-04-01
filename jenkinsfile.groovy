@@ -26,7 +26,7 @@ pipeline {
         stage('🔨 Build do Projeto Java') {
             steps {
                 script {
-                    bat 'mvn clean package -DskipTests'  // Windows CMD
+                    bat 'mvn clean install package -DskipTests'  // Windows CMD
                 }
             }
         }
