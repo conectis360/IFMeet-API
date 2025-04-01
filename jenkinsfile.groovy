@@ -62,11 +62,7 @@ pipeline {
         stage('🚀 Subir Novo Container') {
             steps {
                 script {
-                    bat """
-                        docker run -d --name ${DOCKER_CONTAINER} -p ${SERVER_PORT}:${SERVER_PORT} \\
-                        -e SPRING_PROFILES_ACTIVE=${SPRING_PROFILE} \\
-                        -e JAVA_OPTS="${JAVA_OPTS}" ${DOCKER_IMAGE}
-                    """
+                    bat "docker run -d --name ${DOCKER_CONTAINER} -p ${SERVER_PORT}:${SERVER_PORT} -e SPRING_PROFILES_ACTIVE=${SPRING_PROFILE} -e JAVA_OPTS=\"${JAVA_OPTS}\" ${DOCKER_IMAGE}"
                 }
             }
         }
