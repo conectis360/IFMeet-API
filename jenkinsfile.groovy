@@ -5,7 +5,7 @@ pipeline {
         REPO_URL = 'https://github.com/conectis360/IFMeet-API.git'  // 🔹 Seu repositório Git
         BRANCH = 'master'  // 🔹 Branch a ser usado
 
-        JAR_NAME = 'ifmeet-api.jar'  // 🔹 Nome do arquivo gerado pelo Maven
+        JAR_NAME = 'IFMeet-0.0.1-SNAPSHOT.jar'  // 🔹 Nome do arquivo gerado pelo Maven
         APP_NAME = 'ifmeet-api'  // 🔹 Nome da aplicação
 
         DOCKER_IMAGE = 'ifmeet-api'  // 🔹 Nome da imagem Docker
