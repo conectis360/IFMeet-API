@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE_NAME = "seu-registro/sua-imagem-producao" // Substitua pelo nome da sua imagem Docker de produção
-        DOCKER_CONTAINER_NAME = "sua-app-producao"        // Nome do container que será criado
+        DOCKER_IMAGE_NAME = "ifmeet-api" // Substitua pelo nome da sua imagem Docker de produção
+        DOCKER_CONTAINER_NAME = "api-container"        // Nome do container que será criado
         DOCKERFILE_PATH = "Dockerfile"                 // Caminho para o seu Dockerfile
         SPRING_PROFILE = "prd"                          // Profile do Spring Boot para produção
         JAVA_OPTS = "-Xms512m -Xmx1024m"                // Opções da JVM para produção
@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git(url: 'URL_DO_SEU_REPOSITORIO_GIT', branch: 'main') // Substitua pela URL do seu repositório
+                git(url: 'https://github.com/conectis360/IFMeet-API.git', branch: 'master') // Substitua pela URL do seu repositório
             }
         }
 
