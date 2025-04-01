@@ -43,9 +43,10 @@ pipeline {
         stage('🐳 Build da Imagem Docker') {
             steps {
                 script {
+                    def jarName = findFiles(glob: 'target/*.jar')[0]?.name
                     bat """
-                        docker build -t ${DOCKER_IMAGE} --build-arg JAR_FILE=${JAR_NAME} .
-                    """
+                docker build -t ${DOCKER_IMAGE} --build-arg JAR_FILE=${jarName} .
+            """
                 }
             }
         }
