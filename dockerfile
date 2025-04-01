@@ -24,4 +24,4 @@ ARG JAVA_OPTS
 ENV JAVA_OPTS=${JAVA_OPTS}
 
 # Run the application (use the correct JAR name)
-ENTRYPOINT ["java", "${JAVA_OPTS}", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-Xms512m", "-Xmx1024m", "-jar", "/app/app.jar"]
