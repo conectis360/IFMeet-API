@@ -96,14 +96,11 @@ public class WebSecurityConfig {
         @Bean
         public CorsConfigurationSource corsConfigurationSource() {
             CorsConfiguration configuration = new CorsConfiguration();
-            configuration.setAllowedOrigins(Arrays.asList(
-                    "https://ifmeet.sytes.net:8443",
-                    "http://ifmeet.sytes.net:8443"
-            ));
+            configuration.setAllowedOrigins(Arrays.asList("https://ifmeet.sytes.net:8443"));
             configuration.setAllowedMethods(Arrays.asList("*"));
             configuration.setAllowedHeaders(Arrays.asList("*"));
             configuration.setAllowCredentials(true);
-            configuration.setMaxAge(3600L);
+            configuration.setExposedHeaders(Arrays.asList("Content-Disposition", "x-usuario-pessoa-id"));
 
             UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
             source.registerCorsConfiguration("/**", configuration);
