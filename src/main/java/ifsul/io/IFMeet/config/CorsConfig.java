@@ -2,6 +2,8 @@ package ifsul.io.IFMeet.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -16,33 +18,43 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
-        // ✅ Permite múltiplas origens (adicione outras se necessário)
+        // Permitir origens específicas (substitua pelo domínio do seu frontend)
         config.setAllowedOrigins(Arrays.asList(
-                "https://ifmeet.sytes.net",
-                "http://localhost:8081"  // Exemplo de frontend local
+                "https://ifmeet.sytes.net:8443",
+                "https://localhost:8443",
+                "http://localhost:8080"
         ));
 
-        // ✅ Métodos HTTP permitidos
+        // Métodos permitidos
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
-        // ✅ Cabeçalhos permitidos
-        config.setAllowedHeaders(Arrays.asList(
-                "Authorization", "Content-Type", "Accept", "Content-Disposition", "x-usuario-pessoa-id"
-        ));
+        // Headers permitidos
+        config.setAllowedHeaders(Arrays.asList("*"));
 
-        // ✅ Expor cabeçalhos necessários
-        config.setExposedHeaders(Arrays.asList("Content-Disposition"));
-
-        // ✅ Permitir credenciais (Importante para autenticação)
+        // Permitir credenciais (se necessário para autenticação)
         config.setAllowCredentials(true);
 
-        // ✅ Tempo de cache do CORS (1 hora)
+        // Tempo de cache para configurações CORS (em segundos)
         config.setMaxAge(3600L);
 
-        // ✅ Aplica configuração para todas as rotas
         source.registerCorsConfiguration("/**", config);
-
         return new CorsFilter(source);
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+                .and()
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 }
 
