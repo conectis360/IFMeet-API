@@ -59,24 +59,15 @@ public class WebSecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
-        // Permitir origens específicas (substitua pelo domínio do seu frontend)
+        // Permitir sua origem específica
         config.setAllowedOrigins(Arrays.asList(
-                "https://ifmeet.sytes.net:8443",
-                "https://localhost:8443",
-                "http://localhost:8080"
+                "http://ifmeet.sytes.net:9000",
+                "http://localhost:9000"  // Para desenvolvimento local
         ));
 
-        // Métodos permitidos
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-
-        // Headers permitidos
         config.setAllowedHeaders(Arrays.asList("*"));
-
-        // Permitir credenciais (se necessário para autenticação)
         config.setAllowCredentials(true);
-
-        // Tempo de cache para configurações CORS (em segundos)
-        config.setMaxAge(3600L);
 
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
