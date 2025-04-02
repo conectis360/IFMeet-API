@@ -19,13 +19,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
@@ -59,52 +57,45 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .cors().configurationSource(corsConfigurationSource()) // Configuração CORS personalizada
+                .and()
+                .csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/**").permitAll() // Permite todas as requisições (ajuste conforme necessidade)
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        // Permitir sua origem específica
-        config.setAllowedOrigins(Arrays.asList(
-                "http://ifmeet.sytes.net:9000",
-                "http://localhost:9000"  // Para desenvolvimento local
-        ));
-
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(Arrays.asList("*"));
-        config.setAllowCredentials(true);
-
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
+        return http.build();
     }
 
-    @Configuration
-    @EnableWebSecurity
-    public class SecurityConfig {
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
 
-        @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-            http
-                    .cors(withDefaults())  // Habilita CORS com configuração padrão
-                    .csrf().disable()
-                    .authorizeHttpRequests(auth -> auth
-                            .anyRequest().permitAll()
-                    );
+        // Configure suas origens permitidas (frontend)
+        configuration.setAllowedOrigins(Arrays.asList(
+                "https://ifmeet.sytes.net:8443",  // Seu frontend HTTPS
+                "http://ifmeet.sytes.net:8443",    // Caso use HTTP também
+                "http://localhost:8080"            // Para desenvolvimento local
+        ));
 
-            return http.build();
-        }
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setExposedHeaders(Arrays.asList(
+                "Authorization",
+                "Content-Disposition",
+                "x-usuario-pessoa-id"
+        ));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L); // Cache de 1 hora para configurações CORS
 
-        @Bean
-        public CorsConfigurationSource corsConfigurationSource() {
-            CorsConfiguration configuration = new CorsConfiguration();
-            configuration.setAllowedOrigins(Arrays.asList("https://ifmeet.sytes.net:8443"));
-            configuration.setAllowedMethods(Arrays.asList("*"));
-            configuration.setAllowedHeaders(Arrays.asList("*"));
-            configuration.setAllowCredentials(true);
-            configuration.setExposedHeaders(Arrays.asList("Content-Disposition", "x-usuario-pessoa-id"));
-
-            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-            source.registerCorsConfiguration("/**", configuration);
-            return source;
-        }
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
