@@ -26,7 +26,7 @@ public class CalendarEventController {
     private final CalendarEventService calendarEventService;
     private final CalendarEventMapper calendarEventMapper;
 
-    @ApiOperation(value = "Retornar todas atas", notes = "Retornar todas atas")
+    @ApiOperation(value = "Retornar todos eventos", notes = "Retornar todos eventos")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @GetMapping(value = "/findAll", produces = {MediaType.APPLICATION_JSON_VALUE})
     public DefaultPaginationResponse<CalendarEventDTO> findAll(@ParameterObject DefaultRequestParams request, @ParameterObject CalendarEventFilterDto calendarEventFilterDto) {
@@ -52,12 +52,21 @@ public class CalendarEventController {
         return ResponseEntity.ok().build();
     }
 
-    @ApiOperation(value = "Update Evento", notes = "Atualiza uma Evento")
+    @ApiOperation(value = "Update Evento", notes = "Atualiza um Evento")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> update(@RequestBody CalendarEventDTO calendarEventDTO) {
         log.debug("into save");
         calendarEventService.save(calendarEventMapper.toEntity(calendarEventDTO));
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "Excluir Evento", notes = "Excluir um Evento")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
+    @DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+        log.debug("into save");
+        calendarEventService.delete(id);
         return ResponseEntity.ok().build();
     }
 }

@@ -1,7 +1,7 @@
 package ifsul.io.IFMeet.domain.calendarevent.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import ifsul.io.IFMeet.domain.reuniao.model.Reuniao;
+import ifsul.io.IFMeet.domain.trabalho.model.Trabalho;
 import ifsul.io.IFMeet.domain.usuario.model.Usuario;
 import lombok.*;
 
@@ -47,4 +47,8 @@ public class CalendarEvent {
     @OneToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @OneToOne
+    @JoinColumn(name = "trabalho_id")
+    private Trabalho trabalho;
 }

@@ -2,6 +2,7 @@ package ifsul.io.IFMeet.api.calendarevent.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import ifsul.io.IFMeet.api.trabalho.dto.TrabalhoDTO;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,4 +24,5 @@ public class CalendarEventDTO {
     private String color;
     private String backgroundColor;
     private Boolean allDay;
+    private TrabalhoDTO trabalho;
 }

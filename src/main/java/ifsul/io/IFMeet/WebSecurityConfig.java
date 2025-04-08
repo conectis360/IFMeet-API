@@ -81,7 +81,7 @@ public class WebSecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList(
                 "https://ifmeet.sytes.net:8443",  // Seu frontend HTTPS
                 "http://ifmeet.sytes.net:8443",    // Caso use HTTP também
-                "http://localhost:8080"            // Para desenvolvimento local
+                "http://localhost:8081"            // Para desenvolvimento local
         ));
 
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));

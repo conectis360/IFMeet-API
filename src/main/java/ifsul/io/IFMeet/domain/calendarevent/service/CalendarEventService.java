@@ -7,8 +7,12 @@ import ifsul.io.IFMeet.components.Messages;
 import ifsul.io.IFMeet.domain.calendarevent.model.CalendarEvent;
 import ifsul.io.IFMeet.domain.calendarevent.repository.CalendarEventRepository;
 import ifsul.io.IFMeet.domain.calendarevent.repository.CalendarEventSpecs;
+import ifsul.io.IFMeet.domain.usuario.model.Usuario;
+import ifsul.io.IFMeet.domain.usuario.service.UsuarioService;
+import ifsul.io.IFMeet.exception.exceptions.BusinessException;
 import ifsul.io.IFMeet.payload.response.DefaultPaginationResponse;
 import ifsul.io.IFMeet.payload.response.DefaultRequestParams;
+import ifsul.io.IFMeet.security.SecurityUtils;
 import ifsul.io.IFMeet.utils.PageRequestHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +33,7 @@ public class CalendarEventService {
     private final CalendarEventRepository repository;
     private final CalendarEventMapper calendarEventMapper;
     private final Messages messages;
+    private final UsuarioService usuarioService;
     private final PageRequestHelper pageRequestHelper;
 
     /**
@@ -92,7 +97,17 @@ public class CalendarEventService {
      */
     public CalendarEvent save(CalendarEvent calendarEvent) {
         log.debug("into save method");
+        Usuario usuario = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
+        calendarEvent.setUsuario(usuario);
         return repository.save(calendarEvent);
+    }
+
+    /**
+     * deleta um evento no calendário
+     */
+    public void delete(Long id) {
+        log.debug("into delete method");
+        repository.deleteById(id);
     }
 }
 

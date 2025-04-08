@@ -1,6 +1,7 @@
 package ifsul.io.IFMeet.api.calendarevent.mapper;
 
 import ifsul.io.IFMeet.api.calendarevent.dto.CalendarEventDTO;
+import ifsul.io.IFMeet.api.trabalho.mapper.TrabalhoMapper;
 import ifsul.io.IFMeet.domain.calendarevent.model.CalendarEvent;
 import ifsul.io.IFMeet.mapper.BeanMapper;
 import org.mapstruct.InheritInverseConfiguration;
@@ -8,7 +9,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 
-@Mapper(componentModel = BeanMapper.SPRING)
+@Mapper(componentModel = BeanMapper.SPRING, uses = {
+        TrabalhoMapper.class,
+})
 public interface CalendarEventMapper extends BeanMapper<CalendarEvent, CalendarEventDTO> {
 
     @Override
@@ -20,6 +23,7 @@ public interface CalendarEventMapper extends BeanMapper<CalendarEvent, CalendarE
     @Mapping(source = "color", target = "eventoCor")
     @Mapping(source = "backgroundColor", target = "eventoCorFundo")
     @Mapping(source = "allDay", target = "diaInteiro")
+    @Mapping(source = "trabalho.codigoTrabalho", target = "trabalho.id")
     CalendarEvent toEntity(CalendarEventDTO calendarEventDTO);
 
     @Override
