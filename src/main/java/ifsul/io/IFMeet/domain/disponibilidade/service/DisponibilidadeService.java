@@ -56,4 +56,14 @@ public class DisponibilidadeService {
         disponibilidadeRepository.save(disponibilidade);
     }
 
+    public void update(Disponibilidade disponibilidade) {
+        log.debug("into update method");
+        disponibilidadeRepository.save(disponibilidade);
+    }
+
+    public void delete(Long id) {
+        log.debug("into delete method");
+        disponibilidadeRepository.deleteById(id);
+    }
+
 }

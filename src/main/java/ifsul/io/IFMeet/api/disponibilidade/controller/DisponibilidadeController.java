@@ -3,9 +3,7 @@ package ifsul.io.IFMeet.api.disponibilidade.controller;
 import ifsul.io.IFMeet.api.disponibilidade.dto.DisponibilidadeDTO;
 import ifsul.io.IFMeet.api.disponibilidade.dto.DisponibilidadeFilterDto;
 import ifsul.io.IFMeet.api.disponibilidade.mapper.DisponibilidadeMapper;
-import ifsul.io.IFMeet.api.status.dto.StatusDTO;
 import ifsul.io.IFMeet.domain.disponibilidade.service.DisponibilidadeService;
-import ifsul.io.IFMeet.domain.status.model.Status;
 import ifsul.io.IFMeet.payload.response.DefaultPaginationResponse;
 import ifsul.io.IFMeet.payload.response.DefaultRequestParams;
 import io.swagger.annotations.ApiOperation;
@@ -41,6 +39,24 @@ public class DisponibilidadeController {
     public ResponseEntity<Void> save(@RequestBody DisponibilidadeDTO disponibilidadeDTO) {
         log.debug("into save");
         disponibilidadeService.save(disponibilidadeMapper.toEntity(disponibilidadeDTO));
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "Update disponibilidade", notes = "Atualiza uma disponibilidade")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Void> update(@RequestBody DisponibilidadeDTO disponibilidadeDTO) {
+        log.debug("into update");
+        disponibilidadeService.save(disponibilidadeMapper.toEntity(disponibilidadeDTO));
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "Excluir disponibilidade", notes = "Excluir uma disponibilidade")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
+    @DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+        log.debug("into delete");
+        disponibilidadeService.delete(id);
         return ResponseEntity.ok().build();
     }
 
