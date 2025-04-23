@@ -24,6 +24,7 @@ public interface CalendarEventMapper extends BeanMapper<CalendarEvent, CalendarE
     @Mapping(source = "backgroundColor", target = "eventoCorFundo")
     @Mapping(source = "allDay", target = "diaInteiro")
     @Mapping(source = "trabalho.codigoTrabalho", target = "trabalho.id")
+    @Mapping(source = "status.codigoStatus", target = "status.id")
     CalendarEvent toEntity(CalendarEventDTO calendarEventDTO);
 
     @Override

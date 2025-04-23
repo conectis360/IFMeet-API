@@ -1,12 +1,18 @@
 package ifsul.io.IFMeet.api.status.controller;
 
+import ifsul.io.IFMeet.api.calendarevent.dto.CalendarEventDTO;
+import ifsul.io.IFMeet.api.calendarevent.dto.CalendarEventFilterDto;
 import ifsul.io.IFMeet.api.status.dto.StatusDTO;
+import ifsul.io.IFMeet.api.status.dto.StatusFilterDto;
 import ifsul.io.IFMeet.api.status.mapper.StatusMapper;
 import ifsul.io.IFMeet.domain.status.model.Status;
 import ifsul.io.IFMeet.domain.status.service.StatusService;
+import ifsul.io.IFMeet.payload.response.DefaultPaginationResponse;
+import ifsul.io.IFMeet.payload.response.DefaultRequestParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,19 +31,12 @@ public class StatusController {
 
     private final StatusMapper statusMapper;
     private final StatusService statusService;
-
     @ApiOperation(value = "Busca todas as status", notes = "Retorna todos os Status cadastrados no banco")
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<StatusDTO>> findAll() {
-        log.debug("entrou findAll");
-        List<StatusDTO> listaStatusDTO = new ArrayList<>();
-        List<Status> listaStatus = statusService.findAll();
-
-        for (Status status : listaStatus) {
-            listaStatusDTO.add(statusMapper.toDto(status));
-        }
-
-        return ResponseEntity.ok(listaStatusDTO);
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
+    @GetMapping(value = "/findAll", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public DefaultPaginationResponse<StatusDTO> findAll(@ParameterObject DefaultRequestParams request, @ParameterObject StatusFilterDto statusFilterDto) {
+        log.debug("into findAll");
+        return statusService.findAll(request, statusFilterDto);
     }
 
     @ApiOperation(value = "Retornar Status", notes = "Retornar Status por ID")

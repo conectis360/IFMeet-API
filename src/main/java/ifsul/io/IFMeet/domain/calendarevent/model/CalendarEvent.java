@@ -1,9 +1,12 @@
 package ifsul.io.IFMeet.domain.calendarevent.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import ifsul.io.IFMeet.domain.status.model.Status;
 import ifsul.io.IFMeet.domain.trabalho.model.Trabalho;
 import ifsul.io.IFMeet.domain.usuario.model.Usuario;
 import lombok.*;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -48,7 +51,13 @@ public class CalendarEvent {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trabalho_id")
     private Trabalho trabalho;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id")
+    private Status status;
+
+
 }

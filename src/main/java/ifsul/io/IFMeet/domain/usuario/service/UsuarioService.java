@@ -14,6 +14,7 @@ import ifsul.io.IFMeet.domain.usuario.repository.UsuarioSpecs;
 import ifsul.io.IFMeet.exception.exceptions.BusinessException;
 import ifsul.io.IFMeet.payload.response.DefaultPaginationResponse;
 import ifsul.io.IFMeet.payload.response.DefaultRequestParams;
+import ifsul.io.IFMeet.security.SecurityUtils;
 import ifsul.io.IFMeet.utils.PageRequestHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -103,6 +104,33 @@ public class UsuarioService {
 
         roles.add(userRole);
         return roles;
+    }
+
+    /**
+     * Verifica se o usuário possui uma determinada role.
+     *
+     * @param usuario O usuário a ser verificado
+     * @param role A role a ser verificada
+     * @return true se o usuário possui a role especificada, false caso contrário
+     */
+    private static boolean possuiRole(Usuario usuario, Role role) {
+        if (usuario == null || usuario.getTipoUsuario() == null) {
+            return false;
+        }
+
+        return usuario.getTipoUsuario().stream()
+                .map(TipoUsuario::getTipoUsuario)
+                .anyMatch(tipoRole -> tipoRole == role);
+    }
+
+    public static boolean possuiRoleStatic(Usuario usuario, Role role) {
+        if (usuario == null || usuario.getTipoUsuario() == null) {
+            return false;
+        }
+
+        return usuario.getTipoUsuario().stream()
+                .map(TipoUsuario::getTipoUsuario)
+                .anyMatch(tipoRole -> tipoRole == role);
     }
 
 }

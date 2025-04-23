@@ -12,4 +12,6 @@ import lombok.Setter;
 public class CalendarEventFilterDto {
 
     Long codigoUsuario;
+    Long codigoTrabalho;
+    Long codigoOrientador;
 }

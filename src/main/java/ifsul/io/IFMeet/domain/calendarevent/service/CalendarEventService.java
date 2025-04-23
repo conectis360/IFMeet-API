@@ -7,6 +7,8 @@ import ifsul.io.IFMeet.components.Messages;
 import ifsul.io.IFMeet.domain.calendarevent.model.CalendarEvent;
 import ifsul.io.IFMeet.domain.calendarevent.repository.CalendarEventRepository;
 import ifsul.io.IFMeet.domain.calendarevent.repository.CalendarEventSpecs;
+import ifsul.io.IFMeet.domain.trabalho.model.Trabalho;
+import ifsul.io.IFMeet.domain.trabalho.service.TrabalhoService;
 import ifsul.io.IFMeet.domain.usuario.model.Usuario;
 import ifsul.io.IFMeet.domain.usuario.service.UsuarioService;
 import ifsul.io.IFMeet.exception.exceptions.BusinessException;
@@ -35,6 +37,7 @@ public class CalendarEventService {
     private final Messages messages;
     private final UsuarioService usuarioService;
     private final PageRequestHelper pageRequestHelper;
+    private final TrabalhoService trabalhoService;
 
     /**
      * Busca eventos de calendário paginados com filtros opcionais.
@@ -45,8 +48,9 @@ public class CalendarEventService {
      */
     public DefaultPaginationResponse<CalendarEventDTO> findAll(DefaultRequestParams request, CalendarEventFilterDto calendarEventFilterDto) {
         log.debug("into findAll method");
+        Usuario usuario = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
         Page<CalendarEventDTO> pageResult = repository
-                .findAll(CalendarEventSpecs.calendarEventFilter(calendarEventFilterDto), pageRequestHelper.getPageRequest(request))
+                .findAll(CalendarEventSpecs.calendarEventFilter(calendarEventFilterDto, usuario), pageRequestHelper.getPageRequest(request))
                 .map(calendarEventMapper::toDto);
 
         List<CalendarEventDTO> listaReunioes = pageResult.getContent();
@@ -97,8 +101,23 @@ public class CalendarEventService {
      */
     public CalendarEvent save(CalendarEvent calendarEvent) {
         log.debug("into save method");
-        Usuario usuario = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
+
+        // Busca o usuário logado
+        Usuario usuario = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin()
+                .orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
         calendarEvent.setUsuario(usuario);
+
+        // Verifica se há um trabalho associado
+        if (calendarEvent.getTrabalho() != null && calendarEvent.getTrabalho().getId() != null) {
+            // Busca o trabalho do banco de dados
+            Trabalho trabalho = trabalhoService.findTrabalhoById(calendarEvent.getTrabalho().getId());
+
+            // Define o trabalho recuperado do banco de dados
+            calendarEvent.setTrabalho(trabalho);
+        } else {
+            throw new BusinessException(messages.get("trabalho.nao-encontrado"));
+        }
+
         return repository.save(calendarEvent);
     }
 
