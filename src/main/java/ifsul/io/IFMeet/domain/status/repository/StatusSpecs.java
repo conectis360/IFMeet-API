@@ -30,14 +30,7 @@ public class StatusSpecs {
     /**
      * Cria uma especificação (Specification) para filtrar status com base nos critérios fornecidos.
      *
-     * <p>Esta função aplica filtros com base nos campos preenchidos no DTO de filtro:
-     * <ul>
-     *   <li>Filtra por ID do status, se fornecido</li>
-     *   <li>Filtra por nome do status, se fornecido</li>
-     *   <li>Filtra por descrição do status, se fornecido</li>
-     *   <li>Filtra por data de criação, se fornecida</li>
-     *   <li>Filtra por status ativo/inativo, se fornecido</li>
-     * </ul>
+     * <p>Esta função aplica filtros com base nos campos preenchidos no DTO de filtro
      *
      * @param statusFilterDto DTO contendo os critérios de filtro
      * @return Uma especificação (Specification) que pode ser usada para filtrar status

@@ -27,7 +27,7 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     @ApiOperation(value = "Retornar todos usuarios", notes = "Retornar todos usuarios")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @GetMapping(value = "/findAll", produces = {MediaType.APPLICATION_JSON_VALUE})
     public DefaultPaginationResponse<UsuarioDTO> findAll(@ParameterObject DefaultRequestParams request, @ParameterObject UsuarioFilterDto usuarioFilterDto) {
         log.debug("findAll");

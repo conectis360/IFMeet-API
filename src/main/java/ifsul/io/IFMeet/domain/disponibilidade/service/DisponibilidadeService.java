@@ -34,8 +34,9 @@ public class DisponibilidadeService {
 
     public DefaultPaginationResponse<DisponibilidadeDTO> findAll(DefaultRequestParams request, DisponibilidadeFilterDto disponibilidadeFilterDto) {
         log.debug("into findAll method");
+        Usuario usuario = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
         Page<DisponibilidadeDTO> pageResult = disponibilidadeRepository
-                .findAll(DisponibilidadeSpecs.disponibilidadeFilter(disponibilidadeFilterDto), pageRequestHelper.getPageRequest(request))
+                .findAll(DisponibilidadeSpecs.disponibilidadeFilter(disponibilidadeFilterDto, usuario), pageRequestHelper.getPageRequest(request))
                 .map(disponibilidadeMapper::toDto);
 
         List<DisponibilidadeDTO> lista = pageResult.getContent();

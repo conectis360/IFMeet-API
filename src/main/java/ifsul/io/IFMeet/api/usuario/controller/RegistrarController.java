@@ -47,7 +47,7 @@ public class RegistrarController {
     }
 
     @ApiOperation(value = "Envia convite", notes = "Valida os dados e envia convite para o email")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @PostMapping("/enviarConvite")
     public ResponseEntity<?> enviarConvite(@Validated @RequestBody ConviteDTO conviteDTO) {
         log.debug("entrou enviarConvite");

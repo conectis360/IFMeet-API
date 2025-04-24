@@ -40,7 +40,7 @@ public class DocumentacaoController {
     }
 
     @ApiOperation(value = "Retornar documentação por ID", notes = "Retorna uma documentação pelo id")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<DocumentacaoDTO> findById(@PathVariable("id") Long id) {
         log.debug("entrou findById");

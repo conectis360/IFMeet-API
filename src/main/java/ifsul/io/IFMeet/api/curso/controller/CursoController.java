@@ -40,7 +40,7 @@ public class CursoController {
     }
 
     @ApiOperation(value = "Retornar Curso por ID", notes = "Cadastra um novo curso")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CursoDTO> findById(@PathVariable("id") Long id) {
         log.debug("entrou findById");
@@ -50,7 +50,7 @@ public class CursoController {
     }
 
     @ApiOperation(value = "Salvar Curso", notes = "Salvar curso")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COORDENADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> save(@RequestBody CursoDTO cursoDTO) {
         log.debug("into save");
