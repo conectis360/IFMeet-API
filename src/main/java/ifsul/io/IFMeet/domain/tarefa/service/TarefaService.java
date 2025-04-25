@@ -62,4 +62,23 @@ public class TarefaService {
         tarefaRepository.save(tarefa);
     }
 
+    public void update(Tarefa tarefa) {
+        log.debug("into update method");
+        if (tarefa == null) {
+            log.warn("Tentativa de atualizar tarefa nula");
+            throw new IllegalArgumentException("Tarefa não pode ser nula");
+        }
+
+        log.debug("Atualizando tarefa ID: {}", tarefa.getId());
+
+        if (Boolean.TRUE.equals(tarefa.getFinalizada()) && tarefa.getDataFim() == null) {
+            log.debug("Marcando tarefa como finalizada - definindo dataFim");
+            tarefa.setDataFim(LocalDate.now());
+        }
+
+        // Persistência da tarefa atualizada
+        Tarefa tarefaAtualizada = tarefaRepository.save(tarefa);
+        log.info("Tarefa ID: {} atualizada com sucesso", tarefaAtualizada.getId());
+    }
+
 }

@@ -47,13 +47,21 @@ public class TarefaController {
         return ResponseEntity.ok(tarefaDTO);
     }
 
-    @ApiOperation(value = "Salva Status", notes = "Salva uma Status")
+    @ApiOperation(value = "Salva Tarefa", notes = "Salva uma nova Tarefa")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> save(@RequestBody TarefaDTO tarefaDTO) {
         log.debug("into save");
-        Tarefa tarefa = tarefaMapper.toEntity(tarefaDTO);
-        tarefaService.save(tarefa);
+        tarefaService.save(tarefaMapper.toEntity(tarefaDTO));
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "Atualiza Tarefa", notes = "Atualiza uma tarefa")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Void> update(@RequestBody TarefaDTO tarefaDTO) {
+        log.debug("into save");
+        tarefaService.update(tarefaMapper.toEntity(tarefaDTO));
         return ResponseEntity.ok().build();
     }
 }
