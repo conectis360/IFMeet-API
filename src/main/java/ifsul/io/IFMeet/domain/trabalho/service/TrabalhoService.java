@@ -43,8 +43,9 @@ public class TrabalhoService {
 
     public DefaultPaginationResponse<TrabalhoDTO> findAll(DefaultRequestParams request, TrabalhoFilterDto trabalhoFilterDto) {
         log.debug("into findAll method");
+        Usuario usuario = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
         Page<TrabalhoDTO> pageResult = trabalhoRepository
-                .findAll(TrabalhoSpecs.trabalhoFilter(trabalhoFilterDto), pageRequestHelper.getPageRequest(request))
+                .findAll(TrabalhoSpecs.trabalhoFilter(trabalhoFilterDto, usuario), pageRequestHelper.getPageRequest(request))
                 .map(trabalhoMapper::toDto);
 
         List<TrabalhoDTO> listaTrabalhos = pageResult.getContent();

@@ -5,6 +5,7 @@ import ifsul.io.IFMeet.domain.trabalho.model.Trabalho;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -25,14 +26,10 @@ public class Tarefa {
     private Trabalho trabalho;
 
     @Column(name = "dataInicio")
-    private LocalDateTime dataInicio;
+    private LocalDate dataInicio;
 
     @Column(name = "dataFim")
-    private LocalDateTime dataFim;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
-    private Status status;
+    private LocalDate dataFim;
 
     @Column(name = "finalizada")
     private Boolean finalizada;
