@@ -1,21 +1,17 @@
 package ifsul.io.IFMeet.api.ata.dto;
 
 
-import ifsul.io.IFMeet.api.reuniao.dto.ReuniaoDTO;
-import ifsul.io.IFMeet.domain.reuniao.model.Reuniao;
+import ifsul.io.IFMeet.api.calendarevent.dto.CalendarEventDTO;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
+import javax.persistence.*;
 
 
 @Data
-@Getter
-@Setter
 public class AtaDTO {
 
     private Long codigoAta;
-
-    private ReuniaoDTO reuniao;
-
+    private CalendarEventDTO evento;
     private String resumo;
+    private String pauta;
 }

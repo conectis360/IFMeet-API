@@ -36,7 +36,7 @@ public class AtaController {
         return ataService.findAll(request, ataFilterDto);
     }
 
-    @ApiOperation(value = "Retornar Atas por ID", notes = "Retorna Ata por ID")
+    @ApiOperation(value = "Retornar Ata por ID", notes = "Retorna Ata por ID")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<AtaDTO> findById(@PathVariable("id") Long id) {

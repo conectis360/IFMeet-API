@@ -1,13 +1,15 @@
 package ifsul.io.IFMeet.domain.ata.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import ifsul.io.IFMeet.domain.reuniao.model.Reuniao;
-import lombok.*;
+import ifsul.io.IFMeet.domain.calendarevent.model.CalendarEvent;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @ToString
 @EqualsAndHashCode
 @Entity
@@ -22,9 +24,13 @@ public class Ata {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reuniao_id")
-    private Reuniao reuniao;
+    @JoinColumn(name = "evento_id")
+    private CalendarEvent evento;
 
     @Column(name = "resumo")
     private String resumo;
+
+    @Column(name = "pauta")
+    private String pauta;
+
 }

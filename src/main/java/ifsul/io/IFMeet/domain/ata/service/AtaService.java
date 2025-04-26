@@ -6,8 +6,13 @@ import ifsul.io.IFMeet.api.ata.mapper.AtaMapper;
 import ifsul.io.IFMeet.components.Messages;
 import ifsul.io.IFMeet.domain.ata.model.Ata;
 import ifsul.io.IFMeet.domain.ata.repository.AtaRepository;
+import ifsul.io.IFMeet.domain.ata.repository.AtaSpecs;
+import ifsul.io.IFMeet.domain.usuario.model.Usuario;
+import ifsul.io.IFMeet.domain.usuario.service.UsuarioService;
+import ifsul.io.IFMeet.exception.exceptions.BusinessException;
 import ifsul.io.IFMeet.payload.response.DefaultPaginationResponse;
 import ifsul.io.IFMeet.payload.response.DefaultRequestParams;
+import ifsul.io.IFMeet.security.SecurityUtils;
 import ifsul.io.IFMeet.utils.PageRequestHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +33,7 @@ public class AtaService {
     private final AtaMapper ataMapper;
     private final Messages messages;
     private final PageRequestHelper pageRequestHelper;
+    private final UsuarioService usuarioService;
 
     public Optional<Ata> findById(Long id) {
         log.debug("into findById method");
@@ -78,7 +84,6 @@ public class AtaService {
      * @see DefaultRequestParams
      * @see AtaFilterDto
      * @see DefaultPaginationResponse
-     * @see AtaSpecs#ataFilter(AtaFilterDto)
      * @see PageRequestHelper#getPageRequest(DefaultRequestParams)
      *
      * @sample
@@ -90,8 +95,9 @@ public class AtaService {
      */
     public DefaultPaginationResponse<AtaDTO> findAll(DefaultRequestParams request, AtaFilterDto ataFilterDto) {
         log.debug("into findAll method");
+        Usuario usuario = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
         Page<AtaDTO> pageResult = ataRepository
-                .findAll(AtaSpecs.ataFilter(ataFilterDto), pageRequestHelper.getPageRequest(request))
+                .findAll(AtaSpecs.ataFilter(ataFilterDto, usuario), pageRequestHelper.getPageRequest(request))
                 .map(ataMapper::toDto);
 
         List<AtaDTO> listaReunioes = pageResult.getContent();
