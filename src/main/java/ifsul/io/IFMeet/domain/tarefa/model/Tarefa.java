@@ -25,10 +25,10 @@ public class Tarefa {
     @JoinColumn(name = "trabalho_id")
     private Trabalho trabalho;
 
-    @Column(name = "dataInicio")
+    @Column(name = "data_inicio")
     private LocalDate dataInicio;
 
-    @Column(name = "dataFim")
+    @Column(name = "data_fim")
     private LocalDate dataFim;
 
     @Column(name = "finalizada")
