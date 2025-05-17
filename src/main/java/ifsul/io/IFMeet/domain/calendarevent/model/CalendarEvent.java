@@ -5,8 +5,7 @@ import ifsul.io.IFMeet.domain.status.model.Status;
 import ifsul.io.IFMeet.domain.trabalho.model.Trabalho;
 import ifsul.io.IFMeet.domain.usuario.model.Usuario;
 import lombok.*;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @NoArgsConstructor
 @Table(schema = "public", name = "calendario_event")
+@DynamicUpdate
 public class CalendarEvent {
 
     @Id

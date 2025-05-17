@@ -60,7 +60,7 @@ public class TarefaController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> update(@RequestBody TarefaDTO tarefaDTO) {
-        log.debug("into save");
+        log.debug("into update");
         tarefaService.update(tarefaMapper.toEntity(tarefaDTO));
         return ResponseEntity.ok().build();
     }

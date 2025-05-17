@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -127,6 +128,34 @@ public class CalendarEventService {
     public void delete(Long id) {
         log.debug("into delete method");
         repository.deleteById(id);
+    }
+
+    /**
+     * Atualiza um evento existente no calendário.
+     *
+     * @param id            ID do evento a ser atualizado.
+     * @param calendarEvent Objeto com os novos dados do evento.
+     * @return Optional contendo o evento atualizado, ou um Optional vazio se o evento não for encontrado.
+     */
+    @Transactional
+    public Optional<CalendarEvent> update(Long id, CalendarEvent calendarEvent) {
+        log.debug("into update method for id: {}", id);
+
+        // Busca o evento existente pelo ID
+        Optional<CalendarEvent> existingEventOptional = repository.findById(id);
+
+        return existingEventOptional.map(existingEvent -> {
+            Usuario usuarioLogado = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin()
+                    .orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
+
+            // Verifica se o evento pertence aos usuários do trabalho
+            if (!existingEvent.getTrabalho().getOrientador().equals(usuarioLogado) || !existingEvent.getTrabalho().getAluno().equals(usuarioLogado)) {
+                throw new BusinessException(messages.get("evento.nao-pertence-usuario"));
+            }
+
+            // Salva as alterações no banco de dados
+            return repository.save(calendarEvent);
+        });
     }
 }
 
