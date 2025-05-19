@@ -69,4 +69,13 @@ public class CalendarEventController {
         calendarEventService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+    @ApiOperation(value = "Responder Evento", notes = "Responde se aceita ou não um evento")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
+    @PutMapping(value = "/{id}/{resposta}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Void> responderEvento(@PathVariable("id") Long id, @PathVariable Boolean resposta) {
+        log.debug("into responderEvento");
+        calendarEventService.resposta(id, resposta);
+        return ResponseEntity.ok().build();
+    }
 }

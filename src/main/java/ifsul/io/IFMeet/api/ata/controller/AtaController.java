@@ -31,7 +31,9 @@ public class AtaController {
     @ApiOperation(value = "Retornar todas atas", notes = "Retornar todas atas")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @GetMapping(value = "/findAll", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public DefaultPaginationResponse<AtaDTO> findAll(@ParameterObject DefaultRequestParams request, @ParameterObject AtaFilterDto ataFilterDto) {
+    public DefaultPaginationResponse<AtaDTO> findAll(
+            @ParameterObject DefaultRequestParams request,
+            @ParameterObject AtaFilterDto ataFilterDto) {
         log.debug("into findAll");
         return ataService.findAll(request, ataFilterDto);
     }
@@ -66,4 +68,6 @@ public class AtaController {
         ataService.update(ata);
         return ResponseEntity.ok().build();
     }
+
+
 }

@@ -20,6 +20,8 @@ public class RegistrarUsuarioDTO {
         @Size(min = 3, max = 20)
         private String usuario;
 
+        private String nome;
+
         @NotBlank
         @Size(max = 50)
         @Email

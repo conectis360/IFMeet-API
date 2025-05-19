@@ -7,6 +7,8 @@ import ifsul.io.IFMeet.components.Messages;
 import ifsul.io.IFMeet.domain.calendarevent.model.CalendarEvent;
 import ifsul.io.IFMeet.domain.calendarevent.repository.CalendarEventRepository;
 import ifsul.io.IFMeet.domain.calendarevent.repository.CalendarEventSpecs;
+import ifsul.io.IFMeet.domain.notificacao.model.StatusEnum;
+import ifsul.io.IFMeet.domain.status.model.Status;
 import ifsul.io.IFMeet.domain.trabalho.model.Trabalho;
 import ifsul.io.IFMeet.domain.trabalho.service.TrabalhoService;
 import ifsul.io.IFMeet.domain.usuario.model.Usuario;
@@ -128,6 +130,23 @@ public class CalendarEventService {
     public void delete(Long id) {
         log.debug("into delete method");
         repository.deleteById(id);
+    }
+
+    /**
+     * responde um evento no calendário
+     */
+    public void resposta(Long id, Boolean resposta) {
+        log.debug("into resposta method");
+        CalendarEvent evento = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Evento não encontrada com o ID: " + id));
+        Status status = new Status();
+
+        if (resposta) {
+            status.setId(StatusEnum.ACEITA.getId());
+        } else {
+            status.setId(StatusEnum.CANCELADA.getId());
+        }
+        evento.setStatus(status);
+        repository.save(evento);
     }
 
     /**
