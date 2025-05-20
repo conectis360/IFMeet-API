@@ -36,4 +36,7 @@ public class CalendarEventView {
 
     @Column(name = "trabalho")
     private String trabalhoTitulo;
+
+    @Column(name = "orientador")
+    private Long orientadorId;
 }

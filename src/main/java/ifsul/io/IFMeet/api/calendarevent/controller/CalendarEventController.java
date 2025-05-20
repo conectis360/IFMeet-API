@@ -2,9 +2,11 @@ package ifsul.io.IFMeet.api.calendarevent.controller;
 
 import ifsul.io.IFMeet.api.calendarevent.dto.CalendarEventDTO;
 import ifsul.io.IFMeet.api.calendarevent.dto.CalendarEventFilterDto;
+import ifsul.io.IFMeet.api.calendarevent.dto.CalendarEventViewDTO;
 import ifsul.io.IFMeet.api.calendarevent.mapper.CalendarEventMapper;
 import ifsul.io.IFMeet.domain.calendarevent.model.CalendarEvent;
 import ifsul.io.IFMeet.domain.calendarevent.service.CalendarEventService;
+import ifsul.io.IFMeet.domain.calendarevent.service.CalendarEventViewService;
 import ifsul.io.IFMeet.payload.response.DefaultPaginationResponse;
 import ifsul.io.IFMeet.payload.response.DefaultRequestParams;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +27,7 @@ public class CalendarEventController {
 
     private final CalendarEventService calendarEventService;
     private final CalendarEventMapper calendarEventMapper;
+    private final CalendarEventViewService calendarEventViewService;
 
     @ApiOperation(value = "Retornar todos eventos", notes = "Retornar todos eventos")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
@@ -77,5 +80,13 @@ public class CalendarEventController {
         log.debug("into responderEvento");
         calendarEventService.resposta(id, resposta);
         return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "Retornar todos eventos view", notes = "Retornar todos eventos pela view")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
+    @GetMapping(value = "/findAllView", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public DefaultPaginationResponse<CalendarEventViewDTO> findAllView(@ParameterObject DefaultRequestParams request, @ParameterObject CalendarEventFilterDto calendarEventFilterDto) {
+        log.debug("into findAllView");
+        return calendarEventViewService.findAll(request, calendarEventFilterDto);
     }
 }

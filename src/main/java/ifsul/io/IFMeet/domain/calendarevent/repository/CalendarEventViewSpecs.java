@@ -2,8 +2,8 @@ package ifsul.io.IFMeet.domain.calendarevent.repository;
 
 import ifsul.io.IFMeet.api.calendarevent.dto.CalendarEventFilterDto;
 import ifsul.io.IFMeet.config.Role;
-import ifsul.io.IFMeet.domain.calendarevent.model.CalendarEvent;
 import ifsul.io.IFMeet.domain.calendarevent.model.CalendarEventView;
+import ifsul.io.IFMeet.domain.calendarevent.model.CalendarEventView_;
 import ifsul.io.IFMeet.domain.calendarevent.model.CalendarEvent_;
 import ifsul.io.IFMeet.domain.trabalho.model.Trabalho_;
 import ifsul.io.IFMeet.domain.usuario.model.Usuario;
@@ -37,7 +37,7 @@ public class CalendarEventViewSpecs {
      * </ul>
      *
      * @param calendarEventFilterDto DTO contendo os critérios de filtro
-     * @param usuarioLogado O usuário atualmente logado no sistema
+     * @param usuarioLogado          O usuário atualmente logado no sistema
      * @return Uma especificação (Specification) que pode ser usada para filtrar eventos de calendário
      * @throws IllegalArgumentException se o DTO de filtro ou o usuário logado for nulo
      */
@@ -51,42 +51,11 @@ public class CalendarEventViewSpecs {
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // Aplica filtros específicos com base na role do usuário
-            if (UsuarioService.possuiRoleStatic(usuarioLogado, Role.ROLE_ORIENTANDO)) {
-                // Para orientandos, filtra por trabalho baseado no id do usuário
-                Optional.ofNullable(usuarioLogado.getId())
-                        .ifPresent(codigo -> predicates.add(
-                                root.get(CalendarEvent_.TRABALHO)
-                                        .get(Trabalho_.ALUNO)
-                                        .get(Usuario_.ID)
-                                        .in(codigo)));
-            } else if (UsuarioService.possuiRoleStatic(usuarioLogado, Role.ROLE_ORIENTADOR)) {
+            if (UsuarioService.possuiRoleStatic(usuarioLogado, Role.ROLE_ORIENTADOR)) {
                 // Para orientadores, filtra por código de orientador baseado no id do usuário
                 Optional.ofNullable(usuarioLogado.getId())
                         .ifPresent(codigo -> predicates.add(
-                                root.get(CalendarEvent_.TRABALHO)
-                                        .get(Trabalho_.ORIENTADOR)
-                                        .get(Usuario_.ID)
-                                        .in(codigo)));
-            } else if (UsuarioService.possuiRoleStatic(usuarioLogado, Role.ROLE_ADMIN)) {
-                // Para administradores, aplica todos os filtros fornecidos
-                Optional.ofNullable(calendarEventFilterDto.getCodigoUsuario())
-                        .ifPresent(codigo -> predicates.add(
-                                root.get(CalendarEvent_.USUARIO)
-                                        .get(Usuario_.ID)
-                                        .in(codigo)));
-
-                Optional.ofNullable(calendarEventFilterDto.getCodigoTrabalho())
-                        .ifPresent(codigo -> predicates.add(
-                                root.get(CalendarEvent_.TRABALHO)
-                                        .get(Trabalho_.ID)
-                                        .in(codigo)));
-
-                Optional.ofNullable(calendarEventFilterDto.getCodigoOrientador())
-                        .ifPresent(codigo -> predicates.add(
-                                root.get(CalendarEvent_.TRABALHO)
-                                        .get(Trabalho_.ORIENTADOR)
-                                        .get(Usuario_.ID)
+                                root.get(CalendarEventView_.ORIENTADOR_ID)
                                         .in(codigo)));
             }
 
