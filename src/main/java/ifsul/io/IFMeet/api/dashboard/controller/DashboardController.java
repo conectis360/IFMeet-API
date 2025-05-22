@@ -1,16 +1,12 @@
 package ifsul.io.IFMeet.api.dashboard.controller;
 
 import ifsul.io.IFMeet.api.dashboard.dto.DashboardDto;
-import ifsul.io.IFMeet.api.dashboard.dto.DashboardFiltersDto;
 import ifsul.io.IFMeet.api.dashboard.mapper.DashboardMapper;
 import ifsul.io.IFMeet.domain.ata.model.Ata;
 import ifsul.io.IFMeet.domain.ata.service.AtaService;
-import ifsul.io.IFMeet.payload.response.DefaultPaginationResponse;
-import ifsul.io.IFMeet.payload.response.DefaultRequestParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,6 +24,7 @@ public class DashboardController {
     private final AtaService ataService;
     private final DashboardMapper dashboardMapper;
 
+/*
     @ApiOperation(value = "Retornar todas atas", notes = "Retornar todas atas")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @GetMapping(value = "/findAll", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -36,7 +33,8 @@ public class DashboardController {
             @ParameterObject DashboardFiltersDto ataFilterDto) {
         log.debug("into findAll");
         return ataService.findAll(request, ataFilterDto);
-    }
+        }
+ */
 
     @ApiOperation(value = "Retornar Ata por ID", notes = "Retorna Ata por ID")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
