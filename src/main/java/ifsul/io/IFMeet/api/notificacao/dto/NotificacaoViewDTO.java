@@ -16,7 +16,7 @@ public class NotificacaoViewDTO {
     private String nomeUsuario;
     private byte[] fotoUsuario;
     private String conteudoNotificacao;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/YYYY' 'hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/YYYY' 'HH:mm:ss")
     private LocalDateTime dataNotificacao;
     private String tipoNotificacao;
     private Boolean visualizada;
