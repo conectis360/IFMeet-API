@@ -47,25 +47,4 @@ public class DashboardController {
         return ResponseEntity.ok(dashboardDto);
     }
 
-    @ApiOperation(value = "Salva Ata", notes = "Salva uma Ata")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Void> save(@RequestBody DashboardDto dashboardDto) {
-        log.debug("into save");
-        Ata ata = dashboardMapper.toEntity(dashboardDto);
-        ataService.save(ata);
-        return ResponseEntity.ok().build();
-    }
-
-    @ApiOperation(value = "Update Ata", notes = "Atualiza uma Ata")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
-    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Void> update(@RequestBody DashboardDto dashboardDto) {
-        log.debug("into save");
-        Ata ata = dashboardMapper.toEntity(dashboardDto);
-        ataService.update(ata);
-        return ResponseEntity.ok().build();
-    }
-
-
 }
