@@ -16,12 +16,5 @@ import org.mapstruct.Mapping;
 })
 public interface DashboardMapper extends BeanMapper<Ata, DashboardDto> {
 
-    @Override
-    @InheritInverseConfiguration
-    Ata toEntity(DashboardDto dashboardDto);
-
-    @Override
-    @Mapping(source = "id", target = "codigoAta")
-    DashboardDto toDto(Ata ata);
 
 }

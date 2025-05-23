@@ -7,7 +7,10 @@ import ifsul.io.IFMeet.components.Messages;
 import ifsul.io.IFMeet.domain.calendarevent.model.CalendarEvent;
 import ifsul.io.IFMeet.domain.calendarevent.repository.CalendarEventRepository;
 import ifsul.io.IFMeet.domain.calendarevent.repository.CalendarEventSpecs;
+import ifsul.io.IFMeet.domain.notificacao.model.Notificacao;
 import ifsul.io.IFMeet.domain.notificacao.model.StatusEnum;
+import ifsul.io.IFMeet.domain.notificacao.model.TipoNotificacaoEnum;
+import ifsul.io.IFMeet.domain.notificacao.service.NotificacaoService;
 import ifsul.io.IFMeet.domain.status.model.Status;
 import ifsul.io.IFMeet.domain.trabalho.model.Trabalho;
 import ifsul.io.IFMeet.domain.trabalho.service.TrabalhoService;
@@ -41,6 +44,7 @@ public class CalendarEventService {
     private final UsuarioService usuarioService;
     private final PageRequestHelper pageRequestHelper;
     private final TrabalhoService trabalhoService;
+    private final NotificacaoService notificacaoService;
 
     /**
      * Busca eventos de calendário paginados com filtros opcionais.
@@ -121,6 +125,8 @@ public class CalendarEventService {
             throw new BusinessException(messages.get("trabalho.nao-encontrado"));
         }
 
+
+        notificacaoService.criarNotificacoes(calendarEvent.getTrabalho(), TipoNotificacaoEnum.REUNIAO);
         return repository.save(calendarEvent);
     }
 
