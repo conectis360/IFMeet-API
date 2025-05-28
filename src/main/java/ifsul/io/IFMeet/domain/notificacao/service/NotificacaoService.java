@@ -73,6 +73,7 @@ public class NotificacaoService {
     }
 
     public NotificacoesDTO quantidadeDeNotificacoesPorTipo() {
+        log.debug("into quantidadeDeNotificacoesPorTipo method");
         Usuario usuario = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
 
         return NotificacoesDTO.builder()
@@ -94,6 +95,7 @@ public class NotificacaoService {
      */
     @Transactional
     public void criarNotificacoes(Trabalho trabalho, TipoNotificacaoEnum tipo) {
+        log.debug("into criarNotificacoes method");
         Objects.requireNonNull(trabalho, "Trabalho não pode ser nulo");
         Objects.requireNonNull(tipo, "Tipo de notificação não pode ser nulo");
 

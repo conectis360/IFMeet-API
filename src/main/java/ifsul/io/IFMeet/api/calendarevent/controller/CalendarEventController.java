@@ -59,7 +59,7 @@ public class CalendarEventController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> update(@RequestBody CalendarEventDTO calendarEventDTO) {
-        log.debug("into save");
+        log.debug("into update");
         calendarEventService.save(calendarEventMapper.toEntity(calendarEventDTO));
         return ResponseEntity.ok().build();
     }
@@ -68,7 +68,7 @@ public class CalendarEventController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ORIENTADOR') or hasRole('ROLE_ORIENTANDO')")
     @DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        log.debug("into save");
+        log.debug("into delete");
         calendarEventService.delete(id);
         return ResponseEntity.ok().build();
     }
