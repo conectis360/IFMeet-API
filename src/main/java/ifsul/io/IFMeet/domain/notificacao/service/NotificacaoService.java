@@ -69,6 +69,13 @@ public class NotificacaoService {
                 .build();
     }
 
+    /**
+     * Obtém estatísticas de notificações agrupadas por tipo para o usuário autenticado.
+     *
+     * @return DTO contendo lista de contagens por tipo e total geral
+     * @throws BusinessException se nenhum usuário autenticado for encontrado
+     * @see NotificacoesDTO
+     */
     public NotificacoesDTO quantidadeDeNotificacoesPorTipo() {
         log.debug("into quantidadeDeNotificacoesPorTipo method");
         Usuario usuario = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
