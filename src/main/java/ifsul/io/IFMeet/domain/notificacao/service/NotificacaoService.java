@@ -69,9 +69,6 @@ public class NotificacaoService {
                 .build();
     }
 
-    public void save(Notificacao status) {
-    }
-
     public NotificacoesDTO quantidadeDeNotificacoesPorTipo() {
         log.debug("into quantidadeDeNotificacoesPorTipo method");
         Usuario usuario = usuarioService.retornarUsuarioLogado(SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new BusinessException(messages.get("usuario.nao-encontrado"))));
