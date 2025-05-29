@@ -86,6 +86,12 @@ public class NotificacaoService {
                 .build();
     }
 
+
+    /**
+     * Busca a quantidade de notificações por usuário
+     *
+     * @param usuarioId O trabalho relacionado à notificação
+     */
     public Long quantidadeNotificacoes(Long usuarioId) {
         return notificacaoRepository.quantidadeDeNotificacoesPorUsuario(usuarioId);
     }
