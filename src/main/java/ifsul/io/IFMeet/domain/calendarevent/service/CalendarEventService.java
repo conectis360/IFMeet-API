@@ -126,7 +126,7 @@ public class CalendarEventService {
         }
 
 
-        notificacaoService.criarNotificacoes(calendarEvent.getTrabalho(), TipoNotificacaoEnum.REUNIAO);
+        notificacaoService.criarNotificacoes(calendarEvent.getTrabalho(), TipoNotificacaoEnum.REUNIAO, messages.get("notificacoes.evento-criado", calendarEvent.getTitulo()));
         return repository.save(calendarEvent);
     }
 
@@ -148,8 +148,18 @@ public class CalendarEventService {
 
         if (resposta) {
             status.setId(StatusEnum.ACEITA.getId());
+            notificacaoService.criarNotificacoes(
+                    evento.getTrabalho(),
+                    TipoNotificacaoEnum.REUNIAO,
+                    messages.get("notificacoes.evento-aceito", evento.getTitulo()
+                    ));
         } else {
             status.setId(StatusEnum.CANCELADA.getId());
+            notificacaoService.criarNotificacoes(
+                    evento.getTrabalho(),
+                    TipoNotificacaoEnum.REUNIAO,
+                    messages.get("notificacoes.evento-recusado", evento.getTitulo()
+                    ));
         }
         evento.setStatus(status);
         repository.save(evento);
