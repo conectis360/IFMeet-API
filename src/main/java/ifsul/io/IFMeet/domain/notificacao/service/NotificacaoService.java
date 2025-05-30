@@ -104,7 +104,7 @@ public class NotificacaoService {
      * @throws IllegalArgumentException se o trabalho ou tipo forem nulos
      */
     @Transactional
-    public void criarNotificacoes(Trabalho trabalho, TipoNotificacaoEnum tipo) {
+    public void criarNotificacoes(Trabalho trabalho, TipoNotificacaoEnum tipo, String mensagem) {
         log.debug("into criarNotificacoes method");
         Objects.requireNonNull(trabalho, "Trabalho não pode ser nulo");
         Objects.requireNonNull(tipo, "Tipo de notificação não pode ser nulo");
@@ -113,10 +113,10 @@ public class NotificacaoService {
                 .orElseThrow(() -> new IllegalArgumentException("Tipo de notificação inválido"));
 
         Optional.ofNullable(trabalho.getAluno())
-                .ifPresent(aluno -> criarNotificacao(aluno, tipoNotificacao, trabalho));
+                .ifPresent(aluno -> criarNotificacao(aluno, tipoNotificacao, trabalho, mensagem));
 
         Optional.ofNullable(trabalho.getOrientador())
-                .ifPresent(orientador -> criarNotificacao(orientador, tipoNotificacao, trabalho));
+                .ifPresent(orientador -> criarNotificacao(orientador, tipoNotificacao, trabalho, mensagem));
     }
 
     /**
@@ -126,7 +126,7 @@ public class NotificacaoService {
      * @param tipo     O tipo de notificação
      * @param trabalho O trabalho relacionado
      */
-    private void criarNotificacao(Usuario usuario, TipoNotificacao tipo, Trabalho trabalho) {
+    private void criarNotificacao(Usuario usuario, TipoNotificacao tipo, Trabalho trabalho, String mensagem) {
         Notificacao notificacao = new Notificacao();
         notificacao.setData(LocalDateTime.now());
         notificacao.setConteudo(String.format("Nova %s para o trabalho %s",
